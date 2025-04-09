@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
@@ -20,12 +21,14 @@ namespace Business
         private readonly IData<User> _userData;
         private readonly IDeleteStrategyResolver<User> _strategyResolver;   
         private readonly ILogger<UserBusiness> _logger;
+        private readonly IMapper _mapper;
 
-        public UserBusiness(IData<User> userData, IDeleteStrategyResolver<User> strategyResolver, ILogger<UserBusiness> logger)
+        public UserBusiness(IData<User> userData, IDeleteStrategyResolver<User> strategyResolver, ILogger<UserBusiness> logger,IMapper mapper)
         {
             _userData = userData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -36,7 +39,7 @@ namespace Business
             try
             {
                 var users = await _userData.GetAllAsync();
-                return MapToDTOList(users);
+                return _mapper.Map<IEnumerable<UserDTO>>(users);
             }
             catch (Exception ex)
             {
@@ -64,7 +67,7 @@ namespace Business
             }
             try
             {
-                return MapToDTO(user);
+                return _mapper.Map<UserDTO>(user);
             }
             catch (Exception ex)
             {
@@ -83,10 +86,10 @@ namespace Business
 
             try
             {
-                var user = MapCreateToEntity(userCreateDTO);
+                var user = _mapper.Map<User>(userCreateDTO);
                 var createdUser = await _userData.CreateAsync(user);
 
-                return MapToCreateDTO(createdUser);
+                return _mapper.Map<UserCreateDTO>(createdUser);
             }
             catch (Exception ex)
             {
@@ -179,82 +182,82 @@ namespace Business
         /// <summary>
         /// Mapea un objeto User a UserDTO.
         /// </summary>
-        private UserDTO MapToDTO(User user)
-        {
-            return new UserDTO
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Password = "🤡",
-                Status = user.Active,
-                PersonId = user.PersonId,
-                PersonName = $"{user.Person?.Name} {user.Person?.LastName}"
-            };
+        //private UserDTO MapToDTO(User user)
+        //{
+        //    return new UserDTO
+        //    {
+        //        Id = user.Id,
+        //        Username = user.Username,
+        //        Password = "🤡",
+        //        Status = user.Active,
+        //        PersonId = user.PersonId,
+        //        PersonName = $"{user.Person?.Name} {user.Person?.LastName}"
+        //    };
 
-        }
+        //}
 
 
-        /// <summary>
-        /// Mapea un objeto UserDTO a User.
-        /// </summary>
-        private User MapToEntity(UserDTO userDTO)
-        {
-            return new User
-            {
-                Id = userDTO.Id,
-                Username = userDTO.Username,
-                Active = userDTO.Status,
-                PersonId = userDTO.PersonId
-            };
-        }
+        ///// <summary>
+        ///// Mapea un objeto UserDTO a User.
+        ///// </summary>
+        //private User MapToEntity(UserDTO userDTO)
+        //{
+        //    return new User
+        //    {
+        //        Id = userDTO.Id,
+        //        Username = userDTO.Username,
+        //        Active = userDTO.Status,
+        //        PersonId = userDTO.PersonId
+        //    };
+        //}
 
 
         /// <summary>
         /// Mapea un objeto User a UserCreateDTO.
         /// </summary>
-        private UserCreateDTO MapToCreateDTO(User user)
-        {
-            return new UserCreateDTO
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Password = user.Password,
-                Status = user.Active,
-                PersonId = user.PersonId,
-            };
+        //private UserCreateDTO MapToCreateDTO(User user)
+        //{
+        //    return new UserCreateDTO
+        //    {
+        //        Id = user.Id,
+        //        Username = user.Username,
+        //        Password = user.Password,
+        //        Status = user.Active,
+        //        PersonId = user.PersonId,
+        //    };
 
-        }
-
-
-        /// <summary>
-        /// Mapea un objeto UserCreateDTO a User.
-        /// </summary>
-        private User MapCreateToEntity(UserCreateDTO userCreateDTO)
-        {
-            return new User
-            {
-                Id = userCreateDTO.Id,
-                Username = userCreateDTO.Username,
-                Password = userCreateDTO.Password,
-                Active = userCreateDTO.Status,
-                PersonId = userCreateDTO.PersonId
-            };
-        }
+        //}
 
 
-        /// <summary>
-        /// Metodo para mapear una lista de User a una lista de UserDTO 
-        /// </summary>
-        /// <param name="users"></param>
-        /// <returns></returns>
-        private IEnumerable<UserDTO> MapToDTOList(IEnumerable<User> users)
-        {
-            var usersDTO = new List<UserDTO>();
-            foreach (var user in users)
-            {
-                usersDTO.Add(MapToDTO(user));
-            }
-            return usersDTO;
-        }
+        ///// <summary>
+        ///// Mapea un objeto UserCreateDTO a User.
+        ///// </summary>
+        //private User MapCreateToEntity(UserCreateDTO userCreateDTO)
+        //{
+        //    return new User
+        //    {
+        //        Id = userCreateDTO.Id,
+        //        Username = userCreateDTO.Username,
+        //        Password = userCreateDTO.Password,
+        //        Active = userCreateDTO.Status,
+        //        PersonId = userCreateDTO.PersonId
+        //    };
+        //}
+
+
+        ///// <summary>
+        ///// Metodo para mapear una lista de User a una lista de UserDTO 
+        ///// </summary>
+        ///// <param name="users"></param>
+        ///// <returns></returns>
+        //private IEnumerable<UserDTO> MapToDTOList(IEnumerable<User> users)
+        //{
+        //    var usersDTO = new List<UserDTO>();
+        //    foreach (var user in users)
+        //    {
+        //        usersDTO.Add(MapToDTO(user));
+        //    }
+        //    return usersDTO;
+        //}
     }
 }

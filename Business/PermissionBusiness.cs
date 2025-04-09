@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
@@ -20,12 +21,14 @@ namespace Business
         private readonly IData<Permission> _permissionData;
         private readonly IDeleteStrategyResolver<Permission> _strategyResolver;
         private readonly ILogger<PermissionBusiness> _logger;
+        private readonly IMapper _mapper;
 
-        public PermissionBusiness(IData<Permission> permissionData, IDeleteStrategyResolver<Permission> strategyResolver,ILogger<PermissionBusiness> logger)
+        public PermissionBusiness(IData<Permission> permissionData, IDeleteStrategyResolver<Permission> strategyResolver,ILogger<PermissionBusiness> logger, IMapper mapper)
         {
             _permissionData = permissionData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
 
@@ -37,7 +40,7 @@ namespace Business
             try
             {
                 var permissions = await _permissionData.GetAllAsync();
-                return MapToDTOList(permissions);
+                return _mapper.Map<IEnumerable<PermissionDTO>>(permissions);
             }
             catch (Exception ex)
             {
@@ -65,7 +68,7 @@ namespace Business
             }
             try
             {
-                return MapToDTO(permission);
+                return _mapper.Map<PermissionDTO>(permission);
             }
             catch (Exception ex)
             {
@@ -84,10 +87,10 @@ namespace Business
 
             try
             {
-                var permission = MapToEntity(permissionDTO);
+                var permission = _mapper.Map<Permission>(permissionDTO);
                 var createdPermission = await _permissionData.CreateAsync(permission);
 
-                return MapToDTO(createdPermission);
+                return _mapper.Map<PermissionDTO>(permission);
             }
             catch (Exception ex)
             {
@@ -178,46 +181,46 @@ namespace Business
         /// <summary>
         /// Mapea un objeto Permission a PermissionDTO.
         /// </summary>
-        private PermissionDTO MapToDTO(Permission permission)
-        {
-            return new PermissionDTO
-            {
-                Id = permission.Id,
-                Name = permission.Name,
-                Description = permission.Description,
-                Status = permission.Active
-            };
-        }
+        //private PermissionDTO MapToDTO(Permission permission)
+        //{
+        //    return new PermissionDTO
+        //    {
+        //        Id = permission.Id,
+        //        Name = permission.Name,
+        //        Description = permission.Description,
+        //        Status = permission.Active
+        //    };
+        //}
 
 
-        /// <summary>
-        /// Mapea un objeto PermissionDTO a Permission.
-        /// </summary>
-        private Permission MapToEntity(PermissionDTO permissionDTO)
-        {
-            return new Permission
-            {
-                Id = permissionDTO.Id,
-                Name = permissionDTO.Name,
-                Description = permissionDTO.Description,
-                Active = permissionDTO.Status,
-            };
-        }
+        ///// <summary>
+        ///// Mapea un objeto PermissionDTO a Permission.
+        ///// </summary>
+        //private Permission MapToEntity(PermissionDTO permissionDTO)
+        //{
+        //    return new Permission
+        //    {
+        //        Id = permissionDTO.Id,
+        //        Name = permissionDTO.Name,
+        //        Description = permissionDTO.Description,
+        //        Active = permissionDTO.Status,
+        //    };
+        //}
 
 
-        /// <summary>
-        /// Metodo para mapear una lista de Permission a una lista de PermissionDTO 
-        /// </summary>
-        /// <param name="permissions"></param>
-        /// <returns></returns>
-        private IEnumerable<PermissionDTO> MapToDTOList(IEnumerable<Permission> permissions)
-        {
-            var permissionsDTO = new List<PermissionDTO>();
-            foreach (var permission in permissions)
-            {
-                permissionsDTO.Add(MapToDTO(permission));
-            }
-            return permissionsDTO;
-        }
+        ///// <summary>
+        ///// Metodo para mapear una lista de Permission a una lista de PermissionDTO 
+        ///// </summary>
+        ///// <param name="permissions"></param>
+        ///// <returns></returns>
+        //private IEnumerable<PermissionDTO> MapToDTOList(IEnumerable<Permission> permissions)
+        //{
+        //    var permissionsDTO = new List<PermissionDTO>();
+        //    foreach (var permission in permissions)
+        //    {
+        //        permissionsDTO.Add(MapToDTO(permission));
+        //    }
+        //    return permissionsDTO;
+        //}
     }
 }

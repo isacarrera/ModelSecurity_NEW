@@ -1,4 +1,5 @@
 using Business;
+using Business.GeneralMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
@@ -98,6 +99,9 @@ builder.Services.AddScoped<IData<RolFormPermission>,RolFormPermissionData>();
 
 builder.Services.AddScoped<IBusiness<RolUserDTO, RolUserOptionsDTO>, RolUserBusiness>();
 builder.Services.AddScoped<IData<RolUser>, RolUserData>();
+
+builder.Services.AddAutoMapper(typeof(GeneralMapper));
+
 
 var app = builder.Build();
 

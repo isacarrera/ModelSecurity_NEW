@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
@@ -21,12 +22,14 @@ namespace Business
         private readonly IData<Person> _personData;
         private readonly IDeleteStrategyResolver<Person> _strategyResolver;
         private readonly ILogger<PersonBusiness> _logger;
+        private readonly IMapper _mapper;
 
-        public PersonBusiness(IData<Person> personData, IDeleteStrategyResolver<Person> strategyResolver, ILogger<PersonBusiness> logger)
+        public PersonBusiness(IData<Person> personData, IDeleteStrategyResolver<Person> strategyResolver, ILogger<PersonBusiness> logger, IMapper mapper)
         {
             _personData = personData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace Business
             try
             {
                 var persons = await _personData.GetAllAsync();
-                return MapToDTOList(persons);
+                return _mapper.Map<IEnumerable<PersonDTO>>(persons);
             }
             catch (Exception ex)
             {
@@ -67,7 +70,7 @@ namespace Business
 
             try
             {
-                return MapToDTO(person);
+                return _mapper.Map<PersonDTO>(person);
             }
             catch (Exception ex)
             {
@@ -86,11 +89,11 @@ namespace Business
 
             try
             {
-                var person = MapToEntity(personDto);
+                var person = _mapper.Map<Person>(personDto);
 
                 var createdPerson = await _personData.CreateAsync(person);
 
-                return MapToDTO(createdPerson);
+                return _mapper.Map<PersonDTO>(createdPerson);
             }
             catch (Exception ex)
             {
@@ -200,61 +203,61 @@ namespace Business
         /// <summary>
         /// Mapea de Person a PersonDTO
         /// </summary>
-        private PersonDTO MapToDTO(Person person)
-        {
-            return new PersonDTO
-            {
-                Id = person.Id,
-                Name = person.Name,
-                LastName = person.LastName,
-                Email = person.Email,
-                DocumentType = person.DocumentType,
-                DocumentNumber = person.DocumentNumber,
-                Phone = person.Phone,
-                Address = person.Address,
-                BloodType = person.BloodType,
-                Status = person.Active,
-            };
-        }
+        //private PersonDTO MapToDTO(Person person)
+        //{
+        //    return new PersonDTO
+        //    {
+        //        Id = person.Id,
+        //        Name = person.Name,
+        //        LastName = person.LastName,
+        //        Email = person.Email,
+        //        DocumentType = person.DocumentType,
+        //        DocumentNumber = person.DocumentNumber,
+        //        Phone = person.Phone,
+        //        Address = person.Address,
+        //        BloodType = person.BloodType,
+        //        Status = person.Active,
+        //    };
+        //}
 
 
-        /// <summary>
-        /// Mapea de PersonDTO a Person
-        /// </summary>
-        private Person MapToEntity(PersonDTO personDto)
-        {
-            return new Person
-            {
-                Id = personDto.Id,
-                Name = personDto.Name,
-                LastName = personDto.LastName,
-                Email = personDto.Email,
-                DocumentType = personDto.DocumentType,
-                DocumentNumber = personDto.DocumentNumber,
-                Phone = personDto.Phone,
-                Address = personDto.Address,
-                BloodType = personDto.BloodType,
-                Active = personDto.Status,
-            };
-        }
+        ///// <summary>
+        ///// Mapea de PersonDTO a Person
+        ///// </summary>
+        //private Person MapToEntity(PersonDTO personDto)
+        //{
+        //    return new Person
+        //    {
+        //        Id = personDto.Id,
+        //        Name = personDto.Name,
+        //        LastName = personDto.LastName,
+        //        Email = personDto.Email,
+        //        DocumentType = personDto.DocumentType,
+        //        DocumentNumber = personDto.DocumentNumber,
+        //        Phone = personDto.Phone,
+        //        Address = personDto.Address,
+        //        BloodType = personDto.BloodType,
+        //        Active = personDto.Status,
+        //    };
+        //}
 
 
-        /// <summary>
-        /// Mapea una lista de Person a una lista de PersonDTO
-        /// </summary>
-        /// <summary>
-        /// Metodo para mapear una lista de Person a una lista de PersonDTO 
-        /// </summary>
-        /// <param name="persons"></param>
-        /// <returns></returns>
-        private IEnumerable<PersonDTO> MapToDTOList(IEnumerable<Person> persons)
-        {
-            var personsDTO = new List<PersonDTO>();
-            foreach (var person in persons)
-            {
-                personsDTO.Add(MapToDTO(person));
-            }
-            return personsDTO;
-        }
+        ///// <summary>
+        ///// Mapea una lista de Person a una lista de PersonDTO
+        ///// </summary>
+        ///// <summary>
+        ///// Metodo para mapear una lista de Person a una lista de PersonDTO 
+        ///// </summary>
+        ///// <param name="persons"></param>
+        ///// <returns></returns>
+        //private IEnumerable<PersonDTO> MapToDTOList(IEnumerable<Person> persons)
+        //{
+        //    var personsDTO = new List<PersonDTO>();
+        //    foreach (var person in persons)
+        //    {
+        //        personsDTO.Add(MapToDTO(person));
+        //    }
+        //    return personsDTO;
+        //}
     }
 }

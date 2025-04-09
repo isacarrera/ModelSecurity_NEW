@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
@@ -21,12 +22,14 @@ namespace Business
         private readonly IData<RolFormPermission> _rolFormPermissionData;
         private readonly IDeleteStrategyResolver<RolFormPermission> _strategyResolver;
         private readonly ILogger<RolFormPermissionBusiness> _logger;
+        private readonly IMapper _mapper;
 
-        public RolFormPermissionBusiness(IData<RolFormPermission> rolFormPermissionData, IDeleteStrategyResolver<RolFormPermission> strategyResolver, ILogger<RolFormPermissionBusiness> logger)
+        public RolFormPermissionBusiness(IData<RolFormPermission> rolFormPermissionData, IDeleteStrategyResolver<RolFormPermission> strategyResolver, ILogger<RolFormPermissionBusiness> logger, IMapper mapper)
         {
             _rolFormPermissionData = rolFormPermissionData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace Business
             try
             {
                 var rolFormPermissions = await _rolFormPermissionData.GetAllAsync();
-                return MapToDTOList(rolFormPermissions);
+                return _mapper.Map<IEnumerable<RolFormPermissionDTO>>(rolFormPermissions);
             }
             catch (Exception ex)
             {
@@ -65,7 +68,7 @@ namespace Business
             }
             try
             {
-                return MapToDTO(rolFormPermission);
+                return _mapper.Map<RolFormPermissionDTO>(rolFormPermission);
             }
             catch (Exception ex)
             {
@@ -84,10 +87,10 @@ namespace Business
 
             try
             {
-                var rolFormPermission = MapOptionsToEntity(rolFormPermissionDTO);
+                var rolFormPermission = _mapper.Map<RolFormPermission>(rolFormPermissionDTO);
                 var createdRolFormPermission = await _rolFormPermissionData.CreateAsync(rolFormPermission);
 
-                return MapToOptionsDTO(createdRolFormPermission);
+                return _mapper.Map<RolFormPermissionOptionsDTO>(createdRolFormPermission);
             }
             catch (Exception ex)
             {
@@ -190,92 +193,6 @@ namespace Business
         /// <summary>
         /// Mapea un objeto RolFormPermission a RolFormPermissionDTO.
         /// </summary>
-        private RolFormPermissionDTO MapToDTO(RolFormPermission rolFormPermission)
-        {
-            return new RolFormPermissionDTO
-            {
-                Id = rolFormPermission.Id,
-                Status = rolFormPermission.Active,
-
-                RolId = rolFormPermission.RolId,
-                RolName = rolFormPermission.Rol.Name,
-
-                PermissionId = rolFormPermission.PermissionId,
-                PermissionName = rolFormPermission.Permission.Name,
-
-
-                FormId = rolFormPermission.FormId,
-                FormName = rolFormPermission.Form.Name,
-
-            };
-        }
-
-        /// <summary>
-        /// Mapea un objeto RolFormPermission a RolFormPermissionOptionsDTO.
-        /// </summary>
-        private RolFormPermissionOptionsDTO MapToOptionsDTO(RolFormPermission rolFormPermission)
-        {
-            return new RolFormPermissionOptionsDTO
-            {
-                Id = rolFormPermission.Id,
-                Status = rolFormPermission.Active,
-
-                RolId = rolFormPermission.RolId,
-
-                PermissionId = rolFormPermission.PermissionId,
-
-                FormId = rolFormPermission.FormId,
-            };
-        }
-
-
-        /// <summary>
-        /// Mapea un objeto RolFormPermissionDTO a RolFormPermission.
-        /// </summary>
-        private RolFormPermission MapToEntity(RolFormPermissionDTO rolFormPermissionDTO)
-        {
-            return new RolFormPermission
-            {
-                Id = rolFormPermissionDTO.Id,
-                Active = rolFormPermissionDTO.Status,
-                RolId = rolFormPermissionDTO.RolId,
-                PermissionId = rolFormPermissionDTO.PermissionId,
-                FormId = rolFormPermissionDTO.FormId
-            };
-        }
-
-        /// <summary>
-        /// Mapea un objeto RolFormPermissionOptionsDTO a RolFormPermission.
-        /// </summary>
-        private RolFormPermission MapOptionsToEntity(RolFormPermissionOptionsDTO rolFormPermissionDTO)
-        {
-            return new RolFormPermission
-            {
-                Id = rolFormPermissionDTO.Id,
-                Active = rolFormPermissionDTO.Status,
-
-                RolId = rolFormPermissionDTO.RolId,
-
-                PermissionId = rolFormPermissionDTO.PermissionId,
-
-                FormId = rolFormPermissionDTO.FormId
-            };
-        }
-
-
-        /// <summary>
-        /// Metodo para mapear una lista de RolFormPermission a una lista de RolFormPermissionDTO 
-        /// </summary>
-        /// <param name="rolFormPermissions"></param>
-        /// <returns></returns>
-        private IEnumerable<RolFormPermissionDTO> MapToDTOList(IEnumerable<RolFormPermission> rolFormPermissions)
-        {
-            var rolFormPermissionsDTO = new List<RolFormPermissionDTO>();
-            foreach (var rolFormPermission in rolFormPermissions)
-            {
-                rolFormPermissionsDTO.Add(MapToDTO(rolFormPermission));
-            }
-            return rolFormPermissionsDTO;
-        }
+       
     }
 }

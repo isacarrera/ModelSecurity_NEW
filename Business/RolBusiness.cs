@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
@@ -23,17 +24,19 @@ namespace Business
         private readonly IData<Rol> _rolData;
         private readonly IDeleteStrategyResolver<Rol> _strategyResolver;
         private readonly ILogger<RolBusiness> _logger;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="RolBusiness"/>.
         /// </summary>
         /// <param name="rolData">Capa de acceso a datos para Rol.</param>
         /// <param name="logger">Logger para registro de Rol</param>
-        public RolBusiness(IData<Rol> rolData, IDeleteStrategyResolver<Rol> strategyResolver, ILogger<RolBusiness> logger)
+        public RolBusiness(IData<Rol> rolData, IDeleteStrategyResolver<Rol> strategyResolver, ILogger<RolBusiness> logger, IMapper mapper)
         {
             _rolData = rolData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
 
@@ -49,7 +52,7 @@ namespace Business
             try
             {
                 var roles = await _rolData.GetAllAsync();
-                return MapToDTOList(roles);
+                return _mapper.Map<IEnumerable<RolDTO>>(roles);
             }
             catch (Exception ex)
             {
@@ -91,7 +94,7 @@ namespace Business
 
             try
             {
-                return MapToDTO(rol);
+                return _mapper.Map<RolDTO>(rol);
             }
             catch (Exception ex)
             {
@@ -118,11 +121,11 @@ namespace Business
 
             try
             {
-                var rol = MapToEntity(RolDto);
+                var rol = _mapper.Map<Rol>(RolDto);
 
                 var rolCreado = await _rolData.CreateAsync(rol);
 
-                return MapToDTO(rolCreado);
+                return _mapper.Map<RolDTO>(rolCreado);
             }
             catch (Exception ex)
             {
@@ -234,48 +237,48 @@ namespace Business
         /// </summary>
         /// <param name="rol"></param>
         /// <returns></returns>
-        private RolDTO MapToDTO(Rol rol)
-        {
-            return new RolDTO
-            {
-                Id = rol.Id,
-                Name = rol.Name,
-                Description = rol.Description,
-                Status = rol.Active
-            };
-        }
+        //private RolDTO MapToDTO(Rol rol)
+        //{
+        //    return new RolDTO
+        //    {
+        //        Id = rol.Id,
+        //        Name = rol.Name,
+        //        Description = rol.Description,
+        //        Status = rol.Active
+        //    };
+        //}
 
 
-        /// <summary>
-        /// Metodo para mapear de RolDTO a Rol 
-        /// </summary>
-        /// <param name="rolDTO"></param>
-        /// <returns></returns>
-        private Rol MapToEntity(RolDTO rolDTO)
-        {
-            return new Rol
-            {
-                Id = rolDTO.Id,
-                Name = rolDTO.Name,
-                Description = rolDTO.Description,
-                Active = rolDTO.Status
-            };
-        }
+        ///// <summary>
+        ///// Metodo para mapear de RolDTO a Rol 
+        ///// </summary>
+        ///// <param name="rolDTO"></param>
+        ///// <returns></returns>
+        //private Rol MapToEntity(RolDTO rolDTO)
+        //{
+        //    return new Rol
+        //    {
+        //        Id = rolDTO.Id,
+        //        Name = rolDTO.Name,
+        //        Description = rolDTO.Description,
+        //        Active = rolDTO.Status
+        //    };
+        //}
 
 
-        /// <summary>
-        /// Metodo para mapear una lista de Rol a una lista de RolDTO 
-        /// </summary>
-        /// <param name="roles"></param>
-        /// <returns></returns>
-        private IEnumerable<RolDTO> MapToDTOList(IEnumerable<Rol> roles)
-        {
-            var rolesDTO = new List<RolDTO>();
-            foreach (var rol in roles)
-            {
-                rolesDTO.Add(MapToDTO(rol));
-            }
-            return rolesDTO;
-        }
+        ///// <summary>
+        ///// Metodo para mapear una lista de Rol a una lista de RolDTO 
+        ///// </summary>
+        ///// <param name="roles"></param>
+        ///// <returns></returns>
+        //private IEnumerable<RolDTO> MapToDTOList(IEnumerable<Rol> roles)
+        //{
+        //    var rolesDTO = new List<RolDTO>();
+        //    foreach (var rol in roles)
+        //    {
+        //        rolesDTO.Add(MapToDTO(rol));
+        //    }
+        //    return rolesDTO;
+        //}
     }
 }

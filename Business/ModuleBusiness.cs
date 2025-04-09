@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
 using Entity.DTOs;
+using Entity.DTOs.FormModuleDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
@@ -23,17 +25,19 @@ namespace Business
         private readonly IData<Module> _moduleData;
         private readonly IDeleteStrategyResolver<Module> _strategyResolver;
         private readonly ILogger<ModuleBusiness> _logger;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="ModuleBusiness"/>.
         /// </summary>
         /// <param name="moduleData">Capa de acceso a datos para Module.</param>
         /// <param name="logger">Logger para registro de Module</param>
-        public ModuleBusiness(IData<Module> moduleData, IDeleteStrategyResolver<Module> strategyResolver, ILogger<ModuleBusiness> logger)
+        public ModuleBusiness(IData<Module> moduleData, IDeleteStrategyResolver<Module> strategyResolver, ILogger<ModuleBusiness> logger, IMapper mapper)
         {
             _moduleData = moduleData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
 
@@ -49,7 +53,7 @@ namespace Business
             try
             {
                 var modules = await _moduleData.GetAllAsync();
-                return MapToDTOList(modules);
+                return _mapper.Map<IEnumerable<ModuleDTO>>(modules);
             }
             catch (Exception ex)
             {
@@ -85,7 +89,7 @@ namespace Business
 
             try
             {
-                return MapToDTO(module);
+                return _mapper.Map<ModuleDTO>(module);
             }
             catch (Exception ex)
             {
@@ -111,10 +115,10 @@ namespace Business
             ValidateModule(moduleDTO);
             try
             {
-                var module = MapToEntity(moduleDTO);
+                var module = _mapper.Map<Module>(moduleDTO);
                 var createdModule = await _moduleData.CreateAsync(module);
 
-                return MapToDTO(createdModule);
+                return _mapper.Map<ModuleDTO>(createdModule);
             }
             catch (Exception ex)
             {
@@ -213,49 +217,6 @@ namespace Business
         }
 
 
-        /// <summary>
-        /// Mapea un objeto Module a ModuleDTO.
-        /// </summary>
-        private ModuleDTO MapToDTO(Module module)
-        {
-            return new ModuleDTO
-            {
-                Id = module.Id,
-                Name = module.Name,
-                Description = module.Description,
-                Status = module.Active,
-            };
-        }
-
-
-        /// <summary>
-        /// Mapea un objeto ModuleDTO a Module.
-        /// </summary>
-        private Module MapToEntity(ModuleDTO moduleDTO)
-        {
-            return new Module
-            {
-                Id = moduleDTO.Id,
-                Name = moduleDTO.Name,
-                Description = moduleDTO.Description,
-                Active = moduleDTO.Status,
-            };
-        }
-
-
-        /// <summary>
-        /// Metodo para mapear una lista de Module a una lista de ModuleDTO 
-        /// </summary>
-        /// <param name="modules"></param>
-        /// <returns></returns>
-        private IEnumerable<ModuleDTO> MapToDTOList(IEnumerable<Module> modules)
-        {
-            var modulesDTO = new List<ModuleDTO>();
-            foreach (var module in modules)
-            {
-                modulesDTO.Add(MapToDTO(module));
-            }
-            return modulesDTO;
-        }
+        
     }
 }

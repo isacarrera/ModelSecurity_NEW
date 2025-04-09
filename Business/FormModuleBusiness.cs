@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Interfaces;
 using Data;
 using Data.Interfaces;
+using Entity.DTOs;
 using Entity.DTOs.FormModuleDTOs;
 using Entity.Enums;
 using Entity.Model;
@@ -20,12 +22,14 @@ namespace Business
         private readonly IData<FormModule> _formModuleData;
         private readonly IDeleteStrategyResolver<FormModule> _strategyResolver;
         private readonly ILogger<FormModuleBusiness> _logger;
+        private readonly IMapper _mapper;
 
-        public FormModuleBusiness(IData<FormModule> formModuleData, IDeleteStrategyResolver<FormModule> strategyResolver, ILogger<FormModuleBusiness> logger)
+        public FormModuleBusiness(IData<FormModule> formModuleData, IDeleteStrategyResolver<FormModule> strategyResolver, ILogger<FormModuleBusiness> logger, IMapper mapper)
         {
             _formModuleData = formModuleData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -36,7 +40,7 @@ namespace Business
             try
             {
                 var formModules = await _formModuleData.GetAllAsync();
-                return MapToDTOList(formModules);
+                return _mapper.Map<IEnumerable<FormModuleDTO>>(formModules);
             }
             catch (Exception ex)
             {
@@ -66,7 +70,7 @@ namespace Business
 
             try
             {
-                return MapToDTO(formModule);
+                return _mapper.Map<FormModuleDTO>(formModule);
             }
             catch (Exception ex)
             {
@@ -85,10 +89,10 @@ namespace Business
 
             try
             {
-                var formModule = MapOptionsToEntity(formModuleDTO);
+                var formModule = _mapper.Map<FormModule>(formModuleDTO);
                 var createdFormModule = await _formModuleData.CreateAsync(formModule);
 
-                return MapToOptionsDTO(createdFormModule);
+                return _mapper.Map<FormModuleOptionsDTO>(createdFormModule);
             }
             catch (Exception ex)
             {
@@ -184,85 +188,6 @@ namespace Business
         }
 
 
-        /// <summary>
-        /// Mapea un objeto FormModule a FormModuleDTO.
-        /// </summary>
-        private FormModuleDTO MapToDTO(FormModule formModule)
-        {
-            return new FormModuleDTO
-            {
-                Id = formModule.Id,
-                Status = formModule.Active,
-
-                FormId = formModule.FormId,
-                FormName = formModule.Form.Name,
-
-                ModuleId = formModule.ModuleId,
-                ModuleName = formModule.Module.Name
-            };
-        }
-
-        /// <summary>
-        /// Mapea un objeto FormModule a FormModuleOptionsDTO
-        /// </summary>
-        private FormModuleOptionsDTO MapToOptionsDTO(FormModule formModule)
-        {
-            return new FormModuleOptionsDTO
-            {
-                Id = formModule.Id,
-                Status = formModule.Active,
-
-                FormId = formModule.FormId,
-
-                ModuleId = formModule.ModuleId,
-            };
-        }
-
-
-        /// <summary>
-        /// Mapea un objeto FormModuleDTO a FormModule.
-        /// </summary>
-        private FormModule MapToEntity(FormModuleDTO formModuleDTO)
-        {
-            return new FormModule
-            {
-                Id = formModuleDTO.Id,
-                Active = formModuleDTO.Status,
-                FormId = formModuleDTO.FormId,
-                ModuleId = formModuleDTO.ModuleId
-            };
-        }
-
-        /// <summary>
-        /// Mapea un objeto FormModuleOptionsDTO a FormModule.
-        /// </summary>
-        private FormModule MapOptionsToEntity(FormModuleOptionsDTO formModuleOptionsDTO)
-        {
-            return new FormModule
-            {
-                Id = formModuleOptionsDTO.Id,
-                Active = formModuleOptionsDTO.Status,
-
-                FormId = formModuleOptionsDTO.FormId,
-
-                ModuleId = formModuleOptionsDTO.ModuleId
-            };
-        }
-
-
-        /// <summary>
-        /// Metodo para mapear una lista de FormModule a una lista de ForModuleDTO 
-        /// </summary>
-        /// <param name="formModule"></param>
-        /// <returns></returns>
-        private IEnumerable<FormModuleDTO> MapToDTOList(IEnumerable<FormModule> formModule)
-        {
-            var formModuleDTO = new List<FormModuleDTO>();
-            foreach (var formModule1 in formModule)
-            {
-                formModuleDTO.Add(MapToDTO(formModule1));
-            }
-            return formModuleDTO;
-        }
+        
     }
 }

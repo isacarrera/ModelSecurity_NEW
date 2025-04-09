@@ -1,4 +1,5 @@
-﻿using Business.Interfaces;
+﻿using AutoMapper;
+using Business.Interfaces;
 using Data.Interfaces;
 using Entity.DTOs;
 using Entity.Enums;
@@ -18,17 +19,19 @@ namespace Business
         private readonly IData<Form> _formData;
         private readonly IDeleteStrategyResolver<Form> _strategyResolver;
         private readonly ILogger<FormBusiness> _logger;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="FormBusiness"/>.
         /// </summary>
         /// <param name="formData">Capa de acceso a datos para Form.</param>
         /// <param name="logger">Logger para registro de Form</param>
-        public FormBusiness(IData<Form> formData, IDeleteStrategyResolver<Form> strategyResolver, ILogger<FormBusiness> logger)
+        public FormBusiness(IData<Form> formData, IDeleteStrategyResolver<Form> strategyResolver, ILogger<FormBusiness> logger, IMapper mapper)
         {
             _formData = formData;
             _strategyResolver = strategyResolver;
             _logger = logger;
+            _mapper = mapper;
         }
 
 
@@ -44,7 +47,7 @@ namespace Business
             try
             {
                 var forms = await _formData.GetAllAsync();
-                return MapToDTOList(forms);
+                return _mapper.Map<IEnumerable<FormDTO>>(forms);
             }
             catch (Exception ex)
             {
@@ -86,7 +89,7 @@ namespace Business
 
             try
             { 
-                return MapToDTO(form);
+                return _mapper.Map<FormDTO>(form);
             }
             catch (Exception ex)
             {
@@ -113,10 +116,10 @@ namespace Business
             {
                 ValidateForm(formDTO);
 
-                var form = MapToEntity(formDTO);
+                var form = _mapper.Map<Form>(formDTO);
                 var createdForm = await _formData.CreateAsync(form);
 
-                return MapToDTO(createdForm);
+                return _mapper.Map<FormDTO>(createdForm);
             }
             catch (Exception ex)
             {
@@ -223,46 +226,6 @@ namespace Business
         /// <summary>
         /// Mapea un objeto Form a FormDTO.
         /// </summary>
-        private FormDTO MapToDTO(Form form)
-        {
-            return new FormDTO
-            {
-                Id = form.Id,
-                Name = form.Name,
-                Description = form.Description,
-                Status = form.Active,
-            };
-        }
-
-
-        /// <summary>
-        /// Mapea un objeto FormDTO a Form.
-        /// </summary>
-        private Form MapToEntity(FormDTO formDTO)
-        {
-            return new Form
-            {
-                Id = formDTO.Id,
-                Name = formDTO.Name,
-                Description = formDTO.Description,
-                Active = formDTO.Status,
-            };
-        }
-
-
-        /// <summary>
-        /// Metodo para mapear una lista de Form a una lista de FormDTO 
-        /// </summary>
-        /// <param name="forms"></param>
-        /// <returns></returns>
-        private IEnumerable<FormDTO> MapToDTOList(IEnumerable<Form> forms)
-        {
-            var formsDTO = new List<FormDTO>();
-            foreach (var form in forms)
-            {
-                formsDTO.Add(MapToDTO(form));
-            }
-            return formsDTO;
-        }
+        
     }
 }
