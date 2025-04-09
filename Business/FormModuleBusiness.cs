@@ -10,6 +10,7 @@ using Entity.DTOs.FormModuleDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -17,11 +18,13 @@ namespace Business
     public class FormModuleBusiness : IBusiness<FormModuleDTO, FormModuleOptionsDTO>
     {
         private readonly IData<FormModule> _formModuleData;
+        private readonly IDeleteStrategyResolver<FormModule> _strategyResolver;
         private readonly ILogger<FormModuleBusiness> _logger;
 
-        public FormModuleBusiness(IData<FormModule> formModuleData, ILogger<FormModuleBusiness> logger)
+        public FormModuleBusiness(IData<FormModule> formModuleData, IDeleteStrategyResolver<FormModule> strategyResolver, ILogger<FormModuleBusiness> logger)
         {
             _formModuleData = formModuleData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
 
@@ -127,57 +130,32 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina una relación FormModule por ID.
+        /// Elimina un FormModule. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        public async Task<bool> DeletePersistenceAsync(int id)
-        {
-            var existingFormModule = await _formModuleData.GetByIdAsync(id);
-            if (existingFormModule == null)
-            {
-                throw new EntityNotFoundException("FormModule", id);
-            }
-            try
-            {
-                return await _formModuleData.DeletePersistenceAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar la relación FormModule con ID: {FormModuleId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar la relación FormModule.", ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un FormModule de manera logica por ID
-        /// </summary>
-        public async Task<bool> DeleteLogicAsync(int id)
+        /// <param name="id">ID del FormModule</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
             {
-                throw new ValidationException("ID", "El ID del formModule debe ser mayor que cero.");
+                throw new ArgumentException("El ID del FormModule debe ser un número mayor a cero.", nameof(id));
             }
 
-            var existingUser = await _formModuleData.GetByIdAsync(id);
-            if (existingUser == null)
+            var existingForm = await _formModuleData.GetByIdAsync(id);
+            if (existingForm == null)
             {
                 throw new EntityNotFoundException("FormModule", id);
             }
+
             try
             {
-
-                return await _formModuleData.DeleteLogicAsync(id);
-
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error en servicio externo al eliminar el formModule con ID: {FormModuleId}", id);
-                throw;
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _formModuleData);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al eliminar el formModule de manera logica con ID: {FormModuleId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el user de manera logica.", ex);
+                _logger.LogError(ex, "Error al eliminar el FormModule con ID: {FormModuleId}", id);
+                throw new ExternalServiceException("Base de datos", "Error al eliminar el FormModule.", ex);
             }
         }
 
@@ -285,11 +263,6 @@ namespace Business
                 formModuleDTO.Add(MapToDTO(formModule1));
             }
             return formModuleDTO;
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -11,6 +11,7 @@ using Entity.DTOs.UserDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -18,11 +19,13 @@ namespace Business
     public class PersonBusiness : IBusiness<PersonDTO, PersonDTO>
     {
         private readonly IData<Person> _personData;
+        private readonly IDeleteStrategyResolver<Person> _strategyResolver;
         private readonly ILogger<PersonBusiness> _logger;
 
-        public PersonBusiness(IData<Person> personData, ILogger<PersonBusiness> logger)
+        public PersonBusiness(IData<Person> personData, IDeleteStrategyResolver<Person> strategyResolver, ILogger<PersonBusiness> logger)
         {
             _personData = personData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
 
@@ -140,64 +143,32 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina una persona por su ID
+        /// Elimina un Person. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        public async Task<bool> DeletePersistenceAsync(int id)
+        /// <param name="id">ID del Person</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
             {
-                _logger.LogWarning("Se intentó eliminar un Person con ID inválido: {PersonId}", id);
-                throw new ValidationException("id", "El ID de Person debe ser mayor que cero");
+                throw new ArgumentException("El ID del Person debe ser un número mayor a cero.", nameof(id));
             }
 
-            var existingPerson = await _personData.GetByIdAsync(id);
-            if (existingPerson == null)
+            var existingForm = await _personData.GetByIdAsync(id);
+            if (existingForm == null)
             {
                 throw new EntityNotFoundException("Person", id);
             }
 
             try
             {
-                return await _personData.DeletePersistenceAsync(id);
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _personData);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al eliminar Person con ID: {PersonId}", id);
-                throw new ExternalServiceException("Base de datos", $"Error al eliminar Person con ID {id}", ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un person de manera logica por ID
-        /// </summary>
-        public async Task<bool> DeleteLogicAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ValidationException("ID", "El ID de Person debe ser mayor que cero.");
-            }
-
-            var existingPerson = await _personData.GetByIdAsync(id);
-            if (existingPerson == null)
-            {
-                throw new EntityNotFoundException("Person", id);
-            }
-
-            try
-            {
-                return await _personData.DeleteLogicAsync(id);
-
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error en servicio externo al eliminar Person con ID: {PersonId}", id);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar Person de manera logica con ID: {PersonId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar Person de manera logica.", ex);
+                _logger.LogError(ex, "Error al eliminar el Person con ID: {PersonId}", id);
+                throw new ExternalServiceException("Base de datos", "Error al eliminar el Person.", ex);
             }
         }
 
@@ -284,11 +255,6 @@ namespace Business
                 personsDTO.Add(MapToDTO(person));
             }
             return personsDTO;
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

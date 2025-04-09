@@ -31,6 +31,7 @@ namespace Business
             _logger = logger;
         }
 
+
         /// <summary>
         /// Obtiene todos los Forms y los mapea a objetos <see cref="FormDTO"/>.
         /// </summary>
@@ -171,17 +172,11 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina un Form existente por su identificador.
+        /// Elimina un Form. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        /// <param name="id">Identificador único del Form a eliminar.</param>
-        /// <returns>Un valor booleano que indica si la eliminación fue exitosa.</returns>
-        /// <exception cref="EntityNotFoundException">
-        /// Se lanza si no se encuentra ningún Form con el ID especificado.
-        /// </exception>
-        /// <exception cref="ExternalServiceException">
-        /// Se lanza cuando ocurre un error inesperado al intentar eliminar el Form desde la base de datos.
-        /// </exception>
-        public async Task<bool> DeletePersistenceAsync(int id)
+        /// <param name="id">ID del Form</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
             {
@@ -196,56 +191,14 @@ namespace Business
 
             try
             {
-                return await _formData.DeletePersistenceAsync(id);
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _formData);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar el Form con ID: {FormId}", id);
                 throw new ExternalServiceException("Base de datos", "Error al eliminar el Form.", ex);
             }
-
-        }
-
-
-        /// <summary>
-        /// Elimina un Form existente de manera logica por su identificador.
-        /// </summary>
-        /// <param name="id">Identificador único del Form a eliminar de manera logica.</param>
-        /// <returns>Un valor booleano que indica si la eliminación logica fue exitosa.</returns>
-        /// <exception cref="EntityNotFoundException">
-        /// Se lanza si no se encuentra ningún Form con el ID especificado.
-        /// </exception>
-        /// <exception cref="ExternalServiceException">
-        /// Se lanza cuando ocurre un error inesperado al intentar eliminar de manera logica el Form desde la base de datos.
-        /// </exception>
-        public async Task<bool> DeleteLogicAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ArgumentException("El ID del Form debe ser un número mayor a cero.", nameof(id));
-            }
-
-            var existingForm = await _formData.GetByIdAsync(id);
-            if (existingForm == null)
-            {
-                throw new EntityNotFoundException("Form", id);
-            }
-
-            try
-            {
-                return await _formData.DeleteLogicAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el formulario de manera logica con ID: {FormId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el formulario de manera logica.", ex);
-            }
-        }
-
-        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
-        {
-            var strategy = _strategyResolver.Resolve(strategyType);
-            return await strategy.DeleteAsync(id, _formData);
         }
 
 

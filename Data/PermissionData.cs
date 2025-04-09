@@ -33,7 +33,6 @@ namespace Data
         }
 
 
-
         /// <summary>
         /// Obtiene un Permission específico por su identificación LINQ
         /// </summary>
@@ -87,6 +86,7 @@ namespace Data
                 return false;
             }
         }
+
 
         /// <summary>
         /// Elimina un Permission de la base de datos LINQ

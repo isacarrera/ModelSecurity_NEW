@@ -38,9 +38,6 @@ namespace Data
         }
 
 
-
-
-
         /// <summary>
         /// Obtiene un RolFormPermission específico por su identificación LINQ
         /// </summary>
@@ -62,9 +59,6 @@ namespace Data
         }
 
 
-
-
-
         /// <summary>
         /// Crea un nuevo RolFormPermission en la base de datos LINQ
         /// </summary>
@@ -84,9 +78,6 @@ namespace Data
         }
 
 
-
-
-
         /// <summary>
         /// Actualiza un RolFormPermission existente en la base de datos LINQ
         /// </summary>
@@ -104,9 +95,6 @@ namespace Data
                 return false;
             }
         }
-
-
-
 
 
         /// <summary>
@@ -130,10 +118,6 @@ namespace Data
                 return false;
             }
         }
-
-
-
-
 
 
         /// <summary>

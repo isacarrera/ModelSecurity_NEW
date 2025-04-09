@@ -36,9 +36,6 @@ namespace Data
         }
 
 
-
-
-
         /// <summary>
         /// Obtiene un RolUser específico por su identificación LINQ
         /// </summary>
@@ -57,9 +54,7 @@ namespace Data
                 throw;
             }
         }
-
-
-
+        
 
         /// <summary>
         /// Crea un nuevo RolUser en la base de datos LINQ
@@ -80,7 +75,6 @@ namespace Data
         }
 
 
-
         /// <summary>
         /// Actualiza un RolUser existente en la base de datos LINQ
         /// </summary>
@@ -98,8 +92,6 @@ namespace Data
                 return false;
             }
         }
-
-
 
 
         /// <summary>
@@ -123,7 +115,6 @@ namespace Data
                 return false;
             }
         }
-
 
 
         /// <summary>

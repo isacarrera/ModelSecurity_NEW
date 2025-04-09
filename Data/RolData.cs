@@ -32,7 +32,6 @@ namespace Data
             _logger = logger;
         }
 
-
         
         /// <summary>
         /// Obtiene todos los Rols almacenados en la base de datos LINQ
@@ -45,9 +44,6 @@ namespace Data
              .ToListAsync();
         }
 
-
-
-       
 
         /// <summary>
         /// Obtiene un Rol específico por su identificacion LINQ
@@ -65,9 +61,6 @@ namespace Data
             }
         }
 
-
-
-       
 
         /// <summary>
         /// Crea un nuevo Rol en la base de datos LINQ
@@ -90,9 +83,6 @@ namespace Data
         }
 
 
-
-       
-
         /// <summary>
         /// Actualiza un Rol existente en la base de datos LINQ
         /// </summary>
@@ -112,8 +102,6 @@ namespace Data
                 return false;
             }
         }
-
-
 
 
         /// <summary>
@@ -156,6 +144,5 @@ namespace Data
             await _context.SaveChangesAsync();
             return true;
         }
-
     }
 }

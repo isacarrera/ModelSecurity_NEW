@@ -51,7 +51,8 @@ namespace Data
             }
         }
 
-        // <summary>
+
+        /// <summary>
         /// Crear un nuevo Person en la base de datos LINQ
         /// </summary>
         public async Task<Person> CreateAsync(Person person)
@@ -69,8 +70,6 @@ namespace Data
             }
 
         }
-
-
 
 
         /// <summary>
@@ -91,8 +90,6 @@ namespace Data
             }
 
         }
-
-
 
 
         /// <summary>
@@ -116,8 +113,6 @@ namespace Data
                 return false;
             }
         }
-
-
 
 
         /// <summary>

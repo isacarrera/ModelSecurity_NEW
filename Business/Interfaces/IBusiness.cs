@@ -13,8 +13,6 @@ namespace Business.Interfaces
         Task<TDto> GetByIdAsync(int id);
         Task<TCreateDto> CreateAsync(TCreateDto createDto);
         Task<bool> UpdateAsync(TCreateDto createDto);
-        Task<bool> DeletePersistenceAsync(int id); 
-        Task<bool> DeleteLogicAsync(int id); 
         Task<bool> DeleteAsync(int id, DeleteType deleteType); 
     }
 }

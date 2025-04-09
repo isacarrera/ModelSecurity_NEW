@@ -10,6 +10,7 @@ using Entity.DTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -20,6 +21,7 @@ namespace Business
     public class ModuleBusiness : IBusiness<ModuleDTO, ModuleDTO>
     {
         private readonly IData<Module> _moduleData;
+        private readonly IDeleteStrategyResolver<Module> _strategyResolver;
         private readonly ILogger<ModuleBusiness> _logger;
 
         /// <summary>
@@ -27,11 +29,13 @@ namespace Business
         /// </summary>
         /// <param name="moduleData">Capa de acceso a datos para Module.</param>
         /// <param name="logger">Logger para registro de Module</param>
-        public ModuleBusiness(IData<Module> moduleData, ILogger<ModuleBusiness> logger)
+        public ModuleBusiness(IData<Module> moduleData, IDeleteStrategyResolver<Module> strategyResolver, ILogger<ModuleBusiness> logger)
         {
             _moduleData = moduleData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
+
 
         /// <summary>
         /// Obtiene todos los Modules y los mapea a objetos <see cref="ModuleDTO"/>.
@@ -161,68 +165,32 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina un Module existente por su identificador.
+        /// Elimina un Module. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        /// <param name="id">Identificador único del Module a eliminar.</param>
-        /// <returns>Un valor booleano que indica si la eliminación fue exitosa.</returns>
-        /// <exception cref="EntityNotFoundException">
-        /// Se lanza si no se encuentra ningún Module con el ID especificado.
-        /// </exception>
-        /// <exception cref="ExternalServiceException">
-        /// Se lanza cuando ocurre un error inesperado al intentar eliminar el Module desde la base de datos.
-        /// </exception>
-        public async Task<bool> DeletePersistenceAsync(int id)
+        /// <param name="id">ID del Module</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
-            var existingModule = await _moduleData.GetByIdAsync(id);
-            if (existingModule == null)
+            if (id <= 0)
+            {
+                throw new ArgumentException("El ID del Module debe ser un número mayor a cero.", nameof(id));
+            }
+
+            var existingForm = await _moduleData.GetByIdAsync(id);
+            if (existingForm == null)
             {
                 throw new EntityNotFoundException("Module", id);
             }
 
             try
             {
-                return await _moduleData.DeletePersistenceAsync(id);
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _moduleData);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar el Module con ID: {ModuleId}", id);
                 throw new ExternalServiceException("Base de datos", "Error al eliminar el Module.", ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un Module existente de manera logica por su identificador.
-        /// </summary>
-        /// <param name="id">Identificador único del Module a eliminar de manera logica.</param>
-        /// <returns>Un valor booleano que indica si la eliminación logica fue exitosa.</returns>
-        /// <exception cref="EntityNotFoundException">
-        /// Se lanza si no se encuentra ningún Module con el ID especificado.
-        /// </exception>
-        /// <exception cref="ExternalServiceException">
-        /// Se lanza cuando ocurre un error inesperado al intentar eliminar de manera logica el Module desde la base de datos.
-        /// </exception>
-        public async Task<bool> DeleteLogicAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ValidationException("ID", "El ID del Module debe ser mayor que cero.");
-            }
-
-            var existingModule = await _moduleData.GetByIdAsync(id);
-            if (existingModule == null)
-            {
-                throw new EntityNotFoundException("Module", id);
-            }
-
-            try
-            {
-                return await _moduleData.DeleteLogicAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el Module de manera logica con ID: {FormId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el Module de manera logica.", ex);
             }
         }
 
@@ -288,11 +256,6 @@ namespace Business
                 modulesDTO.Add(MapToDTO(module));
             }
             return modulesDTO;
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

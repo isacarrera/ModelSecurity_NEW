@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Entity.DTOs;
 using Entity.DTOs.UserDTOs;
+using Entity.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -171,7 +172,7 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Elimina un Module del sistema
+        /// Elimina un Module del sistema. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
         /// <param name="id">ID del Module a eliminar</param>
         /// <returns>Mensaje de confirmación</returns>
@@ -181,14 +182,20 @@ namespace Web.Controllers
         /// <response code="500">Error interno del servidor</response>
         [HttpDelete("Delete/{id}/")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteModule(int id)
+        public async Task<IActionResult> DeleteModule(int id, [FromQuery] DeleteType strategy = DeleteType.Logical)
         {
             try
             {
-                await _moduleBusiness.DeletePersistenceAsync(id);
-                return Ok(new { message = "Module eliminado exitosamente" });
+                await _moduleBusiness.DeleteAsync(id, strategy);
+                return Ok(new { message = $"Eliminación con estrategy {strategy} exitosa." });
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogWarning(ex, "ID inválido para eliminación de Module: {ModuleId}", id);
+                return BadRequest(new { message = ex.Message });
             }
             catch (EntityNotFoundException ex)
             {
@@ -197,40 +204,7 @@ namespace Web.Controllers
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex, "Error al eliminar el module con ID: {ModuleId}", id);
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un Module de manera logcica del sistema
-        /// </summary>
-        /// <param name="id">ID del Module a eliminar de manera logica</param>
-        /// <returns>Mensaje de confirmación</returns>
-        /// <response code="200">El Module fue eliminado de manera logica exitosamente</response>
-        /// <response code="400">Parametro Incorrecto</response>
-        /// <response code="404">Module no encontrado</response>
-        /// <response code="500">Error interno del servidor</response>
-        [HttpDelete("Logical/{id}/")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteLogicalModuleAsync(int id)
-        {
-            try
-            {
-                await _moduleBusiness.DeleteLogicAsync(id);
-                return Ok(new { message = "Eliminación lógica exitosa." });
-            }
-            catch (EntityNotFoundException ex)
-            {
-                _logger.LogInformation(ex, "No se encontró el Module con ID: {ModuleId}", id);
-                return NotFound(new { message = ex.Message });
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el Module de manera lógica con ID: {ModuleId}", id);
+                _logger.LogError(ex, "Error al eliminar el Module con ID: {ModuleId}", id);
                 return StatusCode(500, new { message = ex.Message });
             }
         }

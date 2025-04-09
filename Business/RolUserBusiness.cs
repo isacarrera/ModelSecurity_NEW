@@ -10,6 +10,7 @@ using Entity.DTOs.RolUserDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -17,11 +18,13 @@ namespace Business
     public class RolUserBusiness : IBusiness<RolUserDTO, RolUserOptionsDTO>
     {
         private readonly IData<RolUser> _rolUserData;
+        private readonly IDeleteStrategyResolver<RolUser> _strategyResolver;
         private readonly ILogger<RolUserBusiness> _logger;
 
-        public RolUserBusiness(IData<RolUser> rolUserData, ILogger<RolUserBusiness> logger)
+        public RolUserBusiness(IData<RolUser> rolUserData, IDeleteStrategyResolver<RolUser> strategyResolver, ILogger<RolUserBusiness> logger)
         {
             _rolUserData = rolUserData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
 
@@ -123,58 +126,32 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina una asignación de RolUser por ID.
+        /// Elimina un RolUser. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        public async Task<bool> DeletePersistenceAsync(int id)
+        /// <param name="id">ID del RolUser</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException("El ID del RolUser debe ser un número mayor a cero.", nameof(id));
+            }
+
             var existingRolUser = await _rolUserData.GetByIdAsync(id);
             if (existingRolUser == null)
             {
                 throw new EntityNotFoundException("RolUser", id);
             }
+
             try
             {
-                return await _rolUserData.DeletePersistenceAsync(id);
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _rolUserData);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar el RolUser con ID: {RolUserId}", id);
                 throw new ExternalServiceException("Base de datos", "Error al eliminar el RolUser.", ex);
-            }
-        }
-
-
-
-        /// <summary>
-        /// Elimina un RolUser de manera logica por ID
-        /// </summary>
-        public async Task<bool> DeleteLogicAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ValidationException("ID", "El ID del rolUser debe ser mayor que cero.");
-            }
-
-            var existingUser = await _rolUserData.GetByIdAsync(id);
-            if (existingUser == null)
-            {
-                throw new EntityNotFoundException("rolUser", id);
-            }
-            try
-            {
-
-                return await _rolUserData.DeleteLogicAsync(id);
-
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error en servicio externo al eliminar el rolUser con ID: {RolUserId}", id);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el rolUser de manera logica con ID: {RolUserId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el rolUser de manera logica.", ex);
             }
         }
 
@@ -285,11 +262,6 @@ namespace Business
             }
             return rolUsersDTO;
 
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

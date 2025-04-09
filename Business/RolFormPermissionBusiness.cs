@@ -11,6 +11,7 @@ using Entity.DTOs.UserDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -18,11 +19,13 @@ namespace Business
     public class RolFormPermissionBusiness : IBusiness<RolFormPermissionDTO, RolFormPermissionOptionsDTO>
     {
         private readonly IData<RolFormPermission> _rolFormPermissionData;
+        private readonly IDeleteStrategyResolver<RolFormPermission> _strategyResolver;
         private readonly ILogger<RolFormPermissionBusiness> _logger;
 
-        public RolFormPermissionBusiness(IData<RolFormPermission> rolFormPermissionData, ILogger<RolFormPermissionBusiness> logger)
+        public RolFormPermissionBusiness(IData<RolFormPermission> rolFormPermissionData, IDeleteStrategyResolver<RolFormPermission> strategyResolver, ILogger<RolFormPermissionBusiness> logger)
         {
             _rolFormPermissionData = rolFormPermissionData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
 
@@ -124,57 +127,32 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina un RolFormPermission por ID.
+        /// Elimina un RolFormPermission. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        public async Task<bool> DeletePersistenceAsync(int id)
+        /// <param name="id">ID del RolFormPermission</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException("El ID del RolFormPermission debe ser un número mayor a cero.", nameof(id));
+            }
+
             var existingRolFormPermission = await _rolFormPermissionData.GetByIdAsync(id);
             if (existingRolFormPermission == null)
             {
                 throw new EntityNotFoundException("RolFormPermission", id);
             }
+
             try
             {
-                return await _rolFormPermissionData.DeletePersistenceAsync(id);
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _rolFormPermissionData);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar el RolFormPermission con ID: {RolFormPermissionId}", id);
                 throw new ExternalServiceException("Base de datos", "Error al eliminar el RolFormPermission.", ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un FormModule de manera logica por ID
-        /// </summary>
-        public async Task<bool> DeleteLogicAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ValidationException("ID", "El ID del rolFormPermission debe ser mayor que cero.");
-            }
-
-            var existingUser = await _rolFormPermissionData.GetByIdAsync(id);
-            if (existingUser == null)
-            {
-                throw new EntityNotFoundException("RolFormPermission", id);
-            }
-            try
-            {
-
-                return await _rolFormPermissionData.DeleteLogicAsync(id);
-
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error en servicio externo al eliminar el rolFormPermission con ID: {RolFormPermissionId}", id);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el rolFormPermission de manera logica con ID: {rolFormPermissionId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el rolFormPermission de manera logica.", ex);
             }
         }
 
@@ -298,11 +276,6 @@ namespace Business
                 rolFormPermissionsDTO.Add(MapToDTO(rolFormPermission));
             }
             return rolFormPermissionsDTO;
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

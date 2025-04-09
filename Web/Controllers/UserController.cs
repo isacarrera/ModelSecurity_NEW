@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Data;
 using Entity.DTOs.UserDTOs;
+using Entity.Enums;
 using Entity.Model;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace Web.Controllers
     [ApiController]
     [Produces("application/json")]
 
-    public class UserController : ControllerBase
+    public class UserController : ControllerBase    
     {
         private readonly IBusiness<UserDTO, UserCreateDTO> _userBusiness;
         private readonly ILogger<UserController> _logger;
@@ -143,55 +144,39 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Elimina un userBusiness del sistema
+        /// Elimina un User del sistema. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
+        /// <param name="id">ID del User a eliminar</param>
+        /// <returns>Mensaje de confirmación</returns>
+        /// <response code="200">El User fue eliminado exitosamente</response>
+        /// <response code="400">Parametro Incorrecto</response>
+        /// <response code="404">User no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpDelete("Delete/{id}/")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id, [FromQuery] DeleteType strategy = DeleteType.Logical)
         {
             try
             {
-                await _userBusiness.DeletePersistenceAsync(id);
-                return Ok(new { message = "User eliminado exitosamente" });
+                await _userBusiness.DeleteAsync(id, strategy);
+                return Ok(new { message = $"Eliminación con estrategy {strategy} exitosa." });
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogWarning(ex, "ID inválido para eliminación de User: {UserId}", id);
+                return BadRequest(new { message = ex.Message });
             }
             catch (EntityNotFoundException ex)
             {
-                _logger.LogInformation(ex, "No se encontró el user con ID: {UserId}", id);
+                _logger.LogInformation(ex, "No se encontró el User con ID: {UserId}", id);
                 return NotFound(new { message = ex.Message });
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex, "Error al eliminar el user con ID: {UserId}", id);
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
-
-        /// <summary>
-        /// Elimina de manera logica un form del sistema
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("Logical/{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteLogicalUserAsync(int id)
-        {
-            try
-            {
-                await _userBusiness.DeleteLogicAsync(id);
-                return Ok(new { message = "Eliminación lógica exitosa." });
-            }
-            catch (EntityNotFoundException ex)
-            {
-                _logger.LogInformation(ex, "No se encontró el formulario con ID: {FormId}", id);
-                return NotFound(new { message = ex.Message });
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el formulario de manera lógica con ID: {FormId}", id);
+                _logger.LogError(ex, "Error al eliminar el User con ID: {UserId}", id);
                 return StatusCode(500, new { message = ex.Message });
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Business;
 using Business.Interfaces;
 using Entity.DTOs;
+using Entity.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -172,7 +173,7 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Elimina un Rol del sistema
+        /// Elimina un Rol del sistema. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
         /// <param name="id">ID del Rol a eliminar</param>
         /// <returns>Mensaje de confirmación</returns>
@@ -185,54 +186,16 @@ namespace Web.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteRolAsync(int id)
+        public async Task<IActionResult> DeleteRol(int id, [FromQuery] DeleteType strategy = DeleteType.Logical)
         {
             try
             {
-                await _rolBusiness.DeletePersistenceAsync(id);
-                return Ok(new { message = "Rol eliminado exitosamente" });
+                await _rolBusiness.DeleteAsync(id, strategy);
+                return Ok(new { message = $"Eliminación con estrategy {strategy} exitosa." });
             }
             catch (ArgumentException ex)
             {
                 _logger.LogWarning(ex, "ID inválido para eliminación de Rol: {RolId}", id);
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (EntityNotFoundException ex)
-            {
-                _logger.LogInformation(ex, "No se encontró el Ril con ID: {RolId}", id);
-                return NotFound(new { message = ex.Message });
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el rol con ID: {RolId}", id);
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un Rol de manera logcica del sistema
-        /// </summary>
-        /// <param name="id">ID del Rol a eliminar de manera logica</param>
-        /// <returns>Mensaje de confirmación</returns>
-        /// <response code="200">El Rol fue eliminado de manera logica exitosamente</response>
-        /// <response code="400">Parametro Incorrecto</response>
-        /// <response code="404">Rol no encontrado</response>
-        /// <response code="500">Error interno del servidor</response>
-        [HttpDelete("DeleteLogical/{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteLogicalFormAsync(int id)
-        {
-            try
-            {
-                await _rolBusiness.DeleteLogicAsync(id);
-                return Ok(new { message = "Eliminación lógica exitosa." });
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogWarning(ex, "ID inválido para eliminación logica de Rol: {RolId}", id);
                 return BadRequest(new { message = ex.Message });
             }
             catch (EntityNotFoundException ex)
@@ -242,7 +205,7 @@ namespace Web.Controllers
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex, "Error al eliminar el Rol de manera lógica con ID: {RolId}", id);
+                _logger.LogError(ex, "Error al eliminar el Rol con ID: {RolId}", id);
                 return StatusCode(500, new { message = ex.Message });
             }
         }

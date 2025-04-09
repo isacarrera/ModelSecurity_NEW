@@ -10,6 +10,7 @@ using Entity.DTOs.UserDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -17,11 +18,13 @@ namespace Business
     public class UserBusiness : IBusiness<UserDTO, UserCreateDTO>
     {
         private readonly IData<User> _userData;
+        private readonly IDeleteStrategyResolver<User> _strategyResolver;   
         private readonly ILogger<UserBusiness> _logger;
 
-        public UserBusiness(IData<User> userData, ILogger<UserBusiness> logger)
+        public UserBusiness(IData<User> userData, IDeleteStrategyResolver<User> strategyResolver, ILogger<UserBusiness> logger)
         {
             _userData = userData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
 
@@ -125,36 +128,15 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina un usuario por ID.
+        /// Elimina un User. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        public async Task<bool> DeletePersistenceAsync(int id)
-        {
-            var existingUser = await _userData.GetByIdAsync(id);
-            if (existingUser == null)
-            {
-                throw new EntityNotFoundException("User", id);
-            }
-
-            try
-            {
-                return await _userData.DeletePersistenceAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el usuario con ID: {UserId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el usuario.", ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un user de manera logica por ID
-        /// </summary>
-        public async Task<bool> DeleteLogicAsync(int id)
+        /// <param name="id">ID del User</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
             {
-                throw new ValidationException("ID", "El ID del user debe ser mayor que cero.");
+                throw new ArgumentException("El ID del User debe ser un número mayor a cero.", nameof(id));
             }
 
             var existingUser = await _userData.GetByIdAsync(id);
@@ -165,19 +147,13 @@ namespace Business
 
             try
             {
-
-                return await _userData.DeleteLogicAsync(id);
-
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error en servicio externo al eliminar el user con ID: {UserId}", id);
-                throw;
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _userData);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al eliminar el user de manera logica con ID: {UserId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el user de manera logica.", ex);
+                _logger.LogError(ex, "Error al eliminar el User con ID: {UserId}", id);
+                throw new ExternalServiceException("Base de datos", "Error al eliminar el User.", ex);
             }
         }
 
@@ -279,11 +255,6 @@ namespace Business
                 usersDTO.Add(MapToDTO(user));
             }
             return usersDTO;
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

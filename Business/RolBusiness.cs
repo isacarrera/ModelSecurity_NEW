@@ -10,6 +10,7 @@ using Entity.DTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -20,6 +21,7 @@ namespace Business
     public class RolBusiness : IBusiness<RolDTO, RolDTO>
     {
         private readonly IData<Rol> _rolData;
+        private readonly IDeleteStrategyResolver<Rol> _strategyResolver;
         private readonly ILogger<RolBusiness> _logger;
 
         /// <summary>
@@ -27,9 +29,10 @@ namespace Business
         /// </summary>
         /// <param name="rolData">Capa de acceso a datos para Rol.</param>
         /// <param name="logger">Logger para registro de Rol</param>
-        public RolBusiness(IData<Rol> rolData, ILogger<RolBusiness> logger)
+        public RolBusiness(IData<Rol> rolData, IDeleteStrategyResolver<Rol> strategyResolver, ILogger<RolBusiness> logger)
         {
             _rolData = rolData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
 
@@ -176,17 +179,11 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina un Rol existente por su identificador.
+        /// Elimina un Rol. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        /// <param name="id">Identificador único del Rol a eliminar.</param>
-        /// <returns>Un valor booleano que indica si la eliminación fue exitosa.</returns>
-        /// <exception cref="EntityNotFoundException">
-        /// Se lanza si no se encuentra ningún Rol con el ID especificado.
-        /// </exception>
-        /// <exception cref="ExternalServiceException">
-        /// Se lanza cuando ocurre un error inesperado al intentar eliminar el Rol desde la base de datos.
-        /// </exception>
-        public async Task<bool> DeletePersistenceAsync(int id)
+        /// <param name="id">ID del Rol</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
             {
@@ -201,47 +198,12 @@ namespace Business
 
             try
             {
-                return await _rolData.DeletePersistenceAsync(id);
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _rolData);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al eliminar el Rol con ID: {UserId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el Rol.", ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un Rol existente de manera logica por su identificador.
-        /// </summary>
-        /// <param name="id">Identificador único del Rol a eliminar de manera logica.</param>
-        /// <returns>Un valor booleano que indica si la eliminación logica fue exitosa.</returns>
-        /// <exception cref="EntityNotFoundException">
-        /// Se lanza si no se encuentra ningún Rol con el ID especificado.
-        /// </exception>
-        /// <exception cref="ExternalServiceException">
-        /// Se lanza cuando ocurre un error inesperado al intentar eliminar de manera logica el Rol desde la base de datos.
-        /// </exception>
-        public async Task<bool> DeleteLogicAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ArgumentException("El ID del Rol debe ser un número mayor a cero.", nameof(id));
-            }
-
-            var existingRol = await _rolData.GetByIdAsync(id);
-            if (existingRol == null)
-            {
-                throw new EntityNotFoundException("Rol", id);
-            }
-
-            try
-            {
-                return await _rolData.DeleteLogicAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el Rol con ID: {UserId}", id);
+                _logger.LogError(ex, "Error al eliminar el Rol con ID: {RolId}", id);
                 throw new ExternalServiceException("Base de datos", "Error al eliminar el Rol.", ex);
             }
         }
@@ -314,11 +276,6 @@ namespace Business
                 rolesDTO.Add(MapToDTO(rol));
             }
             return rolesDTO;
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

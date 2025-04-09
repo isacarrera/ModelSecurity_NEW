@@ -176,7 +176,7 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Elimina un Form del sistema
+        /// Elimina un Form del sistema. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
         /// <param name="id">ID del Form a eliminar</param>
         /// <returns>Mensaje de confirmación</returns>
@@ -189,59 +189,12 @@ namespace Web.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteForm(int id)
-        {
-            try
-            {
-                await _formBusiness.DeletePersistenceAsync(id);
-                return Ok(new { message = "Form eliminado exitosamente" });
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogWarning(ex, "ID inválido para eliminación de Form: {FormId}", id);
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (EntityNotFoundException ex)
-            {
-                _logger.LogInformation(ex, "No se encontró el form con ID: {FormId}", id);
-                return NotFound(new { message = ex.Message });
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el form con ID: {FormId}", id);
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
-
-        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteForm(int id, [FromQuery] DeleteType strategy = DeleteType.Logical)
         {
-            var result = await _formBusiness.DeleteAsync(id, strategy);
-            if (!result) return NotFound();
-            return NoContent();
-        }
-
-
-        /// <summary>
-        /// Elimina un Form de manera logcica del sistema
-        /// </summary>
-        /// <param name="id">ID del Form a eliminar de manera logica</param>
-        /// <returns>Mensaje de confirmación</returns>
-        /// <response code="200">El Form fue eliminado de manera logica exitosamente</response>
-        /// <response code="400">Parametro Incorrecto</response>
-        /// <response code="404">Form no encontrado</response>
-        /// <response code="500">Error interno del servidor</response>
-        [HttpDelete("Logical/{id}/")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteLogicalFormAsync(int id)
-        {
             try
             {
-                await _formBusiness.DeleteLogicAsync(id);
-                return Ok(new { message = "Eliminación lógica exitosa." });
+                await _formBusiness.DeleteAsync(id, strategy);
+                return Ok(new { message = $"Eliminación con estrategy {strategy} exitosa." });
             }
             catch (ArgumentException ex)
             {
@@ -255,7 +208,7 @@ namespace Web.Controllers
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex, "Error al eliminar el Form de manera lógica con ID: {FormId}", id);
+                _logger.LogError(ex, "Error al eliminar el Form con ID: {FormId}", id);
                 return StatusCode(500, new { message = ex.Message });
             }
         }

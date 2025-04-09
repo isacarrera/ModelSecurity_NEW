@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Data;
 using Entity.DTOs.FormModuleDTOs;
+using Entity.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -143,47 +144,30 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Elimina un formModule del sistema
+        /// Elimina un FormModule del sistema. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
+        /// <param name="id">ID del FormModule a eliminar</param>
+        /// <returns>Mensaje de confirmación</returns>
+        /// <response code="200">El FormModule fue eliminado exitosamente</response>
+        /// <response code="400">Parametro Incorrecto</response>
+        /// <response code="404">FormModule no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpDelete("Delete/{id}/")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteFormModule(int id)
+        public async Task<IActionResult> DeleteFormModule(int id, [FromQuery] DeleteType strategy = DeleteType.Logical)
         {
             try
             {
-                await _formModuleBusiness.DeletePersistenceAsync(id);
-                return Ok(new { message = "FormModule eliminado exitosamente" });
+                await _formModuleBusiness.DeleteAsync(id, strategy);
+                return Ok(new { message = $"Eliminación con estrategy {strategy} exitosa." });
             }
-            catch (EntityNotFoundException ex)
+            catch (ArgumentException ex)
             {
-                _logger.LogInformation(ex, "No se encontró el formModule con ID: {FormModuleId}", id);
-                return NotFound(new { message = ex.Message });
-
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el formModule con ID: {FormModuleId}", id);
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
-
-        /// <summary>
-        /// Elimina de manera logica un formModule del sistema
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("Logical/{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteLogicalFormModuleAsync(int id)
-        {
-            try
-            {
-                await _formModuleBusiness.DeleteLogicAsync(id);
-                return Ok(new { message = "Eliminación lógica exitosa." });
+                _logger.LogWarning(ex, "ID inválido para eliminación de FormModule: {FormModuleId}", id);
+                return BadRequest(new { message = ex.Message });
             }
             catch (EntityNotFoundException ex)
             {
@@ -192,7 +176,7 @@ namespace Web.Controllers
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex, "Error al eliminar el FormModule de manera lógica con ID: {FormModuleId}", id);
+                _logger.LogError(ex, "Error al eliminar el FormModule con ID: {FormModuleId}", id);
                 return StatusCode(500, new { message = ex.Message });
             }
         }

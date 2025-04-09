@@ -10,6 +10,7 @@ using Entity.DTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
 
 namespace Business
@@ -17,13 +18,16 @@ namespace Business
     public class PermissionBusiness : IBusiness<PermissionDTO, PermissionDTO>
     {
         private readonly IData<Permission> _permissionData;
+        private readonly IDeleteStrategyResolver<Permission> _strategyResolver;
         private readonly ILogger<PermissionBusiness> _logger;
 
-        public PermissionBusiness(IData<Permission> permissionData, ILogger<PermissionBusiness> logger)
+        public PermissionBusiness(IData<Permission> permissionData, IDeleteStrategyResolver<Permission> strategyResolver,ILogger<PermissionBusiness> logger)
         {
             _permissionData = permissionData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
+
 
         /// <summary>
         /// Obtiene todos los permisos como DTOs.
@@ -123,58 +127,32 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina un permision por ID.
+        /// Elimina un Permission. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        public async Task<bool> DeletePersistenceAsync(int id)
+        /// <param name="id">ID del Permission</param>
+        /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
-            var existingPermission = await _permissionData.GetByIdAsync(id);
-            if (existingPermission == null)
+            if (id <= 0)
+            {
+                throw new ArgumentException("El ID del Permission debe ser un número mayor a cero.", nameof(id));
+            }
+
+            var existingForm = await _permissionData.GetByIdAsync(id);
+            if (existingForm == null)
             {
                 throw new EntityNotFoundException("Permission", id);
             }
 
             try
             {
-                return await _permissionData.DeletePersistenceAsync(id);
+                var strategy = _strategyResolver.Resolve(strategyType);
+                return await strategy.DeleteAsync(id, _permissionData);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar el Permission con ID: {PermissionId}", id);
                 throw new ExternalServiceException("Base de datos", "Error al eliminar el Permission.", ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Elimina un formulario de manera logica por ID
-        /// </summary>
-        public async Task<bool> DeleteLogicAsync(int id)
-        {
-            if (id <= 0)
-            {
-                throw new ValidationException("ID", "El ID del Permission debe ser mayor que cero.");
-            }
-
-            var existingPermission = await _permissionData.GetByIdAsync(id);
-            if (existingPermission == null)
-            {
-                throw new EntityNotFoundException("Form", id);
-            }
-
-            try
-            {
-                return await _permissionData.DeleteLogicAsync(id);
-
-            }
-            catch (ExternalServiceException ex)
-            {
-                _logger.LogError(ex, "Error en servicio externo al eliminar el Permission con ID: {FormId}", id);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al eliminar el Permission de manera logica con ID: {FormId}", id);
-                throw new ExternalServiceException("Base de datos", "Error al eliminar el Permission de manera logica.", ex);
             }
         }
 
@@ -240,11 +218,6 @@ namespace Business
                 permissionsDTO.Add(MapToDTO(permission));
             }
             return permissionsDTO;
-        }
-
-        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -13,10 +13,7 @@ namespace Strategy.Implementations
     {
         public async Task<bool> DeleteAsync(int id, IData<TEntity> data)
         {
-            var entity = await data.GetByIdAsync(id);
-            if (entity == null) return false;
             return await data.DeletePersistenceAsync(id);
-
         }
     }
 }
