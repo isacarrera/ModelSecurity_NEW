@@ -45,3 +45,4 @@ C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Infrastruc
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Infrastructure\obj\Debug\net8.0\refint\Infrastructure.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Infrastructure\obj\Debug\net8.0\Infrastructure.pdb
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json

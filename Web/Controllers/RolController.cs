@@ -27,7 +27,7 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="RolBusiness">Capa de negocio de Rol</param>
         /// <param name="logger">Logger para registro de Rol</param>
-        public RolController(RolBusiness rolBusiness, ILogger<RolController> logger)
+        public RolController(IBusiness<RolDTO, RolDTO> rolBusiness, ILogger<RolController> logger)
         {
             _rolBusiness = rolBusiness;
             _logger = logger;

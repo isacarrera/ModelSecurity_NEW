@@ -21,7 +21,7 @@ namespace Web.Controllers
         private readonly IBusiness<FormModuleDTO,FormModuleOptionsDTO> _formModuleBusiness;
         private readonly ILogger<FormModuleController> _logger;
 
-        public FormModuleController(FormModuleBusiness formModuleBusiness, ILogger<FormModuleController> logger)
+        public FormModuleController(IBusiness<FormModuleDTO, FormModuleOptionsDTO> formModuleBusiness, ILogger<FormModuleController> logger)
         {
             _formModuleBusiness = formModuleBusiness;
             _logger = logger;

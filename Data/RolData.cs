@@ -141,9 +141,6 @@ namespace Data
         }
 
 
-
-        
-
         /// <summary>
         /// Elimina un Rol de manera logica un Rol de la base de datos LINQ
         /// </summary>

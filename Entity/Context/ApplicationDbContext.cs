@@ -14,9 +14,9 @@ namespace Entity.Context
     // </summary>
     public class ApplicationDbContext : DbContext
     {
-        // <summary>
-        // Configuración de la aplicación.
-        // </summary>
+        /// <summary>
+        /// Configuración de la aplicación.
+        /// </summary>
         protected readonly IConfiguration _configuration;
 
         /// <summary>
@@ -87,12 +87,12 @@ namespace Entity.Context
             return base.SaveChanges();
         }
 
-        // <summary>
-        // Guarda los cambios en la base de datos de manera asíncrona, asegurando la auditoría antes de la persistencia.
-        // </summary>
-        // <param name="acceptAllChangesOnSuccess">Indica si se deben aceptar todos los cambios en caso de éxito.</param>
-        // <param name="cancellationToken">Token de cancelación para abortar la operación.</param>
-        // <returns>Número de filas afectadas de forma asíncrona.</returns>
+        /// <summary>
+        /// Guarda los cambios en la base de datos de manera asíncrona, asegurando la auditoría antes de la persistencia.
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess">Indica si se deben aceptar todos los cambios en caso de éxito.</param>
+        /// <param name="cancellationToken">Token de cancelación para abortar la operación.</param>
+        /// <returns>Número de filas afectadas de forma asíncrona.</returns>
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             EnsureAudit();

@@ -75,7 +75,6 @@ builder.Services.AddScoped<IBusiness<ModuleDTO,ModuleDTO>,ModuleBusiness>();
 builder.Services.AddScoped<IData<Module>,ModuleData>();
 
 builder.Services.AddScoped<IBusiness<RolDTO, RolDTO>, RolBusiness>();
-builder.Services.AddScoped<RolBusiness>(); // ? Este es el que faltaba
 builder.Services.AddScoped<IData<Rol>, RolData>();
 
 builder.Services.AddScoped<IBusiness<PermissionDTO,PermissionDTO>,PermissionBusiness>();
@@ -84,9 +83,7 @@ builder.Services.AddScoped<IData<Permission>,PermissionData>();
 builder.Services.AddScoped<IBusiness<UserDTO, UserCreateDTO>, UserBusiness>();
 builder.Services.AddScoped<IData<User>, UserData>();
 
-
 builder.Services.AddScoped<IBusiness<FormModuleDTO,FormModuleOptionsDTO>, FormModuleBusiness>();
-builder.Services.AddScoped<FormModuleBusiness>();
 builder.Services.AddScoped<IData<FormModule>,FormModuleData>();
 
 builder.Services.AddScoped<IBusiness<RolFormPermissionDTO,RolFormPermissionOptionsDTO>,RolFormPermissionBusiness>();

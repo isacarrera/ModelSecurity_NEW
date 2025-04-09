@@ -42,3 +42,4 @@ C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Entity\obj
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Entity\obj\Debug\net8.0\Entity.pdb
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Entity\obj\Debug\net8.0\Entity.genruntimeconfig.cache
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Entity\obj\Debug\net8.0\ref\Entity.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Entity\obj\Debug\net8.0\Entity.sourcelink.json

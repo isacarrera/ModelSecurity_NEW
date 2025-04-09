@@ -57,3 +57,4 @@ C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\o
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\obj\Debug\net8.0\refint\Business.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.pdb
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\obj\Debug\net8.0\ref\Business.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.sourcelink.json

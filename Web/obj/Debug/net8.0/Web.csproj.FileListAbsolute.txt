@@ -315,3 +315,4 @@ C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Web\obj\De
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Web\obj\Debug\net8.0\Web.pdb
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Web\obj\Debug\net8.0\Web.genruntimeconfig.cache
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Web\obj\Debug\net8.0\ref\Web.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Web\obj\Debug\net8.0\Web.sourcelink.json
