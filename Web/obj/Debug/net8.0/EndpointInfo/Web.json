@@ -2197,11 +2197,10 @@
     "schemas": {
       "DeleteType": {
         "enum": [
-          0,
-          1
+          "Logical",
+          "Permanent"
         ],
-        "type": "integer",
-        "format": "int32"
+        "type": "string"
       },
       "FormDTO": {
         "type": "object",
@@ -2218,7 +2217,7 @@
             "type": "string",
             "nullable": true
           },
-          "status": {
+          "active": {
             "type": "boolean"
           }
         },

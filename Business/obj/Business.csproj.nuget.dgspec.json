@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Business\\Business.csproj": {}
+    "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Business\\Business.csproj": {}
   },
   "projects": {
-    "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Business\\Business.csproj": {
+    "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Business\\Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Business\\Business.csproj",
+        "projectUniqueName": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Business\\Business.csproj",
         "projectName": "Business",
-        "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Business\\Business.csproj",
-        "packagesPath": "C:\\Users\\NITRO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Business\\obj\\",
+        "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Business\\Business.csproj",
+        "packagesPath": "C:\\Users\\pipea\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Business\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\NITRO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pipea\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,14 +32,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\Data.csproj"
+              "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\Data.csproj": {
+                "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\Data.csproj"
               },
-              "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Strategy\\Strategy.csproj": {
-                "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Strategy\\Strategy.csproj"
+              "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Strategy\\Strategy.csproj": {
+                "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Strategy\\Strategy.csproj"
               },
-              "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Utilities\\Utilities.csproj": {
-                "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Utilities\\Utilities.csproj"
+              "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Utilities\\Utilities.csproj": {
+                "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Utilities\\Utilities.csproj"
               }
             }
           }
@@ -54,7 +54,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -81,24 +81,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\Data.csproj": {
+    "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\Data.csproj",
+        "projectUniqueName": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\Data.csproj",
-        "packagesPath": "C:\\Users\\NITRO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\obj\\",
+        "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\Data.csproj",
+        "packagesPath": "C:\\Users\\pipea\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\NITRO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pipea\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -113,8 +113,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\Entity.csproj": {
-                "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\Entity.csproj"
+              "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\Entity.csproj": {
+                "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\Entity.csproj"
               }
             }
           }
@@ -129,7 +129,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -150,24 +150,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\Entity.csproj": {
+    "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\Entity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\Entity.csproj",
+        "projectUniqueName": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\Entity.csproj",
         "projectName": "Entity",
-        "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\Entity.csproj",
-        "packagesPath": "C:\\Users\\NITRO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\obj\\",
+        "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\Entity.csproj",
+        "packagesPath": "C:\\Users\\pipea\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\NITRO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pipea\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -194,7 +194,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -249,24 +249,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Strategy\\Strategy.csproj": {
+    "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Strategy\\Strategy.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Strategy\\Strategy.csproj",
+        "projectUniqueName": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Strategy\\Strategy.csproj",
         "projectName": "Strategy",
-        "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Strategy\\Strategy.csproj",
-        "packagesPath": "C:\\Users\\NITRO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Strategy\\obj\\",
+        "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Strategy\\Strategy.csproj",
+        "packagesPath": "C:\\Users\\pipea\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Strategy\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\NITRO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pipea\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -281,11 +281,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Data\\Data.csproj"
+              "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\Data.csproj": {
+                "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Data\\Data.csproj"
               },
-              "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\Entity.csproj": {
-                "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Entity\\Entity.csproj"
+              "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\Entity.csproj": {
+                "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Entity\\Entity.csproj"
               }
             }
           }
@@ -300,7 +300,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -321,24 +321,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Utilities\\Utilities.csproj": {
+    "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Utilities\\Utilities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Utilities\\Utilities.csproj",
+        "projectUniqueName": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Utilities\\Utilities.csproj",
         "projectName": "Utilities",
-        "projectPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Utilities\\Utilities.csproj",
-        "packagesPath": "C:\\Users\\NITRO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\NITRO\\Downloads\\Exposicion\\ModelSecurity_NEW\\Utilities\\obj\\",
+        "projectPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Utilities\\Utilities.csproj",
+        "packagesPath": "C:\\Users\\pipea\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pipea\\OneDrive\\Escritorio\\Temporal\\ADSO\\Tecnica\\ModelSecurity_NEW_After\\Utilities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\NITRO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pipea\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -365,7 +365,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -386,7 +386,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

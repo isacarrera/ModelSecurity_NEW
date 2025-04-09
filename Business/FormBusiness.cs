@@ -160,7 +160,7 @@ namespace Business
 
             try
             {
-                existingForm.Active = formDTO.Status;
+                existingForm.Active = formDTO.Active;
                 existingForm.Name = formDTO.Name;
                 existingForm.Description = formDTO.Description;
 

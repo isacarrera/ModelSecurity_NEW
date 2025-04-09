@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Business;
 using Business.GeneralMapper;
 using Business.Interfaces;
@@ -26,7 +27,12 @@ var builder = WebApplication.CreateBuilder(args);
 //);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -67,7 +73,6 @@ builder.Services.AddScoped(provider =>
     return factory.CreateDbContext();
 });
 
-builder.Services.AddScoped(typeof(IDeleteStrategy<>), typeof(LogicalDeleteStrategy<>));
 builder.Services.AddScoped(typeof(LogicalDeleteStrategy<>));
 builder.Services.AddScoped(typeof(PermanentDeleteStrategy<>));
 builder.Services.AddScoped(typeof(IDeleteStrategyResolver<>), typeof(DeleteContext<>));
