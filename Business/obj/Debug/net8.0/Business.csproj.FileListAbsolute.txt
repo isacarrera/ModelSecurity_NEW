@@ -18,25 +18,6 @@ C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_SQL\Busin
 C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_SQL\Business\obj\Debug\net8.0\refint\Business.dll
 C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_SQL\Business\obj\Debug\net8.0\Business.pdb
 C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_SQL\Business\obj\Debug\net8.0\ref\Business.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.deps.json
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Data.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Entity.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Utilities.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Data.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Utilities.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Entity.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.csproj.AssemblyReference.cache
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.AssemblyInfoInputs.cache
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.AssemblyInfo.cs
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.csproj.CoreCompileInputs.cache
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.csproj.Up2Date
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\refint\Business.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\ref\Business.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.deps.json
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.pdb
@@ -57,4 +38,25 @@ C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\o
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\obj\Debug\net8.0\refint\Business.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.pdb
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Business\obj\Debug\net8.0\ref\Business.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.deps.json
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Business.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Data.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Entity.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Strategy.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Utilities.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Data.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Strategy.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Utilities.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\bin\Debug\net8.0\Entity.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.csproj.AssemblyReference.cache
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.AssemblyInfoInputs.cache
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.AssemblyInfo.cs
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.csproj.CoreCompileInputs.cache
 C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.sourcelink.json
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.csproj.Up2Date
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\refint\Business.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\Business.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Business\obj\Debug\net8.0\ref\Business.dll

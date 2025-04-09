@@ -28,7 +28,6 @@ namespace Data
             _context = context;
             _logger = logger;
         }
-
   
 
         /// <summary>
@@ -41,7 +40,6 @@ namespace Data
                          .Where(f => f.Active) 
                          .ToListAsync();
         }
-
 
 
         /// <summary>
@@ -59,8 +57,6 @@ namespace Data
                 throw;
             }
         }
-
-
 
 
         /// <summary>
@@ -105,7 +101,6 @@ namespace Data
         }
 
 
-
         /// <summary>
         /// Elimina un Form de la base de datos LINQ
         /// </summary>
@@ -132,7 +127,7 @@ namespace Data
 
 
         /// <summary>
-        /// Elimina un Form de manera logica un Form de la base de datos LINQ
+        /// Elimina un Form de manera logica de la base de datos LINQ
         /// </summary>
         /// <param name="id">Identificador unico del Form a eliminar de manera logica</param>
         /// <returns>True si la eliminación fue exitosa, False en caso contrario.</returns>

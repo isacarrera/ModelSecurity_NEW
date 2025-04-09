@@ -7,6 +7,7 @@ using Business.Interfaces;
 using Data;
 using Data.Interfaces;
 using Entity.DTOs.FormModuleDTOs;
+using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
 using Utilities.Exceptions;
@@ -286,5 +287,9 @@ namespace Business
             return formModuleDTO;
         }
 
+        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

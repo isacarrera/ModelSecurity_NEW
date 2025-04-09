@@ -12,6 +12,9 @@ using Entity.Model;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Strategy.Context;
+using Strategy.Implementations;
+using Strategy.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +66,10 @@ builder.Services.AddScoped(provider =>
     return factory.CreateDbContext();
 });
 
+builder.Services.AddScoped(typeof(IDeleteStrategy<>), typeof(LogicalDeleteStrategy<>));
+builder.Services.AddScoped(typeof(LogicalDeleteStrategy<>));
+builder.Services.AddScoped(typeof(PermanentDeleteStrategy<>));
+builder.Services.AddScoped(typeof(IDeleteStrategyResolver<>), typeof(DeleteContext<>));
 
 /// Definicion de Servicios 
 builder.Services.AddScoped<IBusiness<FormDTO, FormDTO>, FormBusiness>();

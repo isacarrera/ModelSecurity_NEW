@@ -1217,6 +1217,7 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "Data": "1.0.0",
+          "Strategy": "1.0.0",
           "Utilities": "1.0.0"
         },
         "compile": {
@@ -1268,6 +1269,20 @@
         },
         "runtime": {
           "bin/placeholder/Infrastructure.dll": {}
+        }
+      },
+      "Strategy/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Data": "1.0.0",
+          "Entity": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Strategy.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Strategy.dll": {}
         }
       },
       "Utilities/1.0.0": {
@@ -3558,6 +3573,11 @@
       "type": "project",
       "path": "../Infrastructure/Infrastructure.csproj",
       "msbuildProject": "../Infrastructure/Infrastructure.csproj"
+    },
+    "Strategy/1.0.0": {
+      "type": "project",
+      "path": "../Strategy/Strategy.csproj",
+      "msbuildProject": "../Strategy/Strategy.csproj"
     },
     "Utilities/1.0.0": {
       "type": "project",

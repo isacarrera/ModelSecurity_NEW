@@ -3,27 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entity.Enums;
+using Microsoft.Extensions.DependencyInjection;
+using Strategy.Implementations;
 using Strategy.Interfaces;
 
 namespace Strategy.Context
 {
-    public class DeleteContext
+    public class DeleteContext<TEntity> : IDeleteStrategyResolver<TEntity>
     {
-        private IDeleteStrategy _strategy;
 
-        public DeleteContext(IDeleteStrategy strategy)
+        private readonly IServiceProvider _serviceProvider;
+        public DeleteContext(IServiceProvider serviceProvider)
         {
-            _strategy = strategy;
+            _serviceProvider = serviceProvider;
         }
 
-        public void SetStrategy(IDeleteStrategy strategy)
+        public IDeleteStrategy<TEntity> Resolve(DeleteType strategyType)
         {
-            _strategy = strategy;
+            return strategyType switch
+            {
+                DeleteType.Logical => _serviceProvider.GetRequiredService<LogicalDeleteStrategy<TEntity>>(),
+                DeleteType.Permanent => _serviceProvider.GetRequiredService<PermanentDeleteStrategy<TEntity>>(),
+                _ => throw new NotImplementedException()
+            };
         }
 
-        public async Task<bool> ExecuteStrategyAsync(int id)
-        {
-            return await _strategy.DeleteAsync(id);
-        }
     }
 }

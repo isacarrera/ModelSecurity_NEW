@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.Interfaces;
+using Entity.Enums;
 
 namespace Strategy.Interfaces
 {
-    public interface IDeleteStrategy<TEntity>
+    public interface IDeleteStrategyResolver<TEntity>
     {
-        Task<bool> DeleteAsync(int id, IData<TEntity> data);
+        IDeleteStrategy<TEntity> Resolve(DeleteType strategyType);
     }
 }

@@ -1,18 +1,3 @@
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.deps.json
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Entity.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Entity.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.csproj.AssemblyReference.cache
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.AssemblyInfoInputs.cache
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.AssemblyInfo.cs
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.csproj.CoreCompileInputs.cache
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.csproj.Up2Date
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\refint\Strategy.dll
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.pdb
-C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\ref\Strategy.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.deps.json
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.pdb
@@ -29,3 +14,21 @@ C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Strategy\o
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\refint\Strategy.dll
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.pdb
 C:\Users\ISABELLA\OneDrive\Documentos\Nueva carpeta\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\ref\Strategy.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.deps.json
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Strategy.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Data.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Entity.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Data.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\bin\Debug\net8.0\Entity.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.csproj.AssemblyReference.cache
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.AssemblyInfoInputs.cache
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.AssemblyInfo.cs
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.csproj.CoreCompileInputs.cache
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.sourcelink.json
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.csproj.Up2Date
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\refint\Strategy.dll
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\Strategy.pdb
+C:\Users\pipea\OneDrive\Escritorio\Temporal\ADSO\Tecnica\ModelSecurity_NEW\Strategy\obj\Debug\net8.0\ref\Strategy.dll

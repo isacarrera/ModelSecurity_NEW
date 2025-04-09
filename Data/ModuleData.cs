@@ -30,7 +30,6 @@ namespace Data
         }
 
 
-
         /// <summary>
         /// Obtiene todos los Modules almacenados en la base de datos LINQ
         /// </summary>
@@ -60,8 +59,6 @@ namespace Data
         }
 
 
-
-
         /// <summary>
         /// Crea un nuevo Module en la base de datos LINQ
         /// </summary>
@@ -83,8 +80,6 @@ namespace Data
         }
 
 
-
-
         /// <summary>
         /// Actualiza un Module existente en la base de datos LINQ
         /// </summary>
@@ -104,7 +99,6 @@ namespace Data
                 return false;
             }
         }
-
 
 
         /// <summary>
@@ -130,8 +124,6 @@ namespace Data
                 return false;
             }
         }
-
-
 
 
         /// <summary>

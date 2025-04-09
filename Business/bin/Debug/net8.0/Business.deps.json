@@ -9,6 +9,7 @@
       "Business/1.0.0": {
         "dependencies": {
           "Data": "1.0.0",
+          "Strategy": "1.0.0",
           "Utilities": "1.0.0"
         },
         "runtime": {
@@ -697,6 +698,18 @@
           }
         }
       },
+      "Strategy/1.0.0": {
+        "dependencies": {
+          "Data": "1.0.0",
+          "Entity": "1.0.0"
+        },
+        "runtime": {
+          "Strategy.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Utilities/1.0.0": {
         "runtime": {
           "Utilities.dll": {
@@ -1146,6 +1159,11 @@
       "sha512": ""
     },
     "Entity/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Strategy/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

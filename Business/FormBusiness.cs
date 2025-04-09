@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Interfaces;
-using Data;
+﻿using Business.Interfaces;
 using Data.Interfaces;
 using Entity.DTOs;
-using Entity.DTOs.UserDTOs;
+using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
-using Microsoft.SqlServer.Server;
+using Strategy.Interfaces;
 using Utilities.Exceptions;
+
 
 namespace Business
 {
@@ -21,6 +16,7 @@ namespace Business
     public class FormBusiness : IBusiness<FormDTO, FormDTO>
     {
         private readonly IData<Form> _formData;
+        private readonly IDeleteStrategyResolver<Form> _strategyResolver;
         private readonly ILogger<FormBusiness> _logger;
 
         /// <summary>
@@ -28,9 +24,10 @@ namespace Business
         /// </summary>
         /// <param name="formData">Capa de acceso a datos para Form.</param>
         /// <param name="logger">Logger para registro de Form</param>
-        public FormBusiness(IData<Form> formData, ILogger<FormBusiness> logger)
+        public FormBusiness(IData<Form> formData, IDeleteStrategyResolver<Form> strategyResolver, ILogger<FormBusiness> logger)
         {
             _formData = formData;
+            _strategyResolver = strategyResolver;
             _logger = logger;
         }
 
@@ -243,6 +240,12 @@ namespace Business
                 _logger.LogError(ex, "Error al eliminar el formulario de manera logica con ID: {FormId}", id);
                 throw new ExternalServiceException("Base de datos", "Error al eliminar el formulario de manera logica.", ex);
             }
+        }
+
+        public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
+        {
+            var strategy = _strategyResolver.Resolve(strategyType);
+            return await strategy.DeleteAsync(id, _formData);
         }
 
 

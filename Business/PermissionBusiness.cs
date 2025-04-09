@@ -7,6 +7,7 @@ using Business.Interfaces;
 using Data;
 using Data.Interfaces;
 using Entity.DTOs;
+using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
 using Utilities.Exceptions;
@@ -239,6 +240,11 @@ namespace Business
                 permissionsDTO.Add(MapToDTO(permission));
             }
             return permissionsDTO;
+        }
+
+        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

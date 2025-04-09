@@ -24,7 +24,6 @@ namespace Data
         }
 
         
-
         /// <summary>
         /// Obtiene todos los FormModule almacenados en la base de datos LINQ
         /// </summary>
@@ -36,8 +35,6 @@ namespace Data
                 .Include(formModule => formModule.Module)
                 .ToListAsync();
         }
-
-
 
 
         /// <summary>
@@ -60,8 +57,6 @@ namespace Data
         }
 
 
-
-
         /// <summary>
         /// Crea un nuevo FormModule en la base de datos LINQ
         /// </summary>
@@ -79,8 +74,6 @@ namespace Data
                 throw;
             }
         }
-
-
 
         
         /// <summary>
@@ -101,9 +94,6 @@ namespace Data
             }
         }
 
-
-
-        
 
         /// <summary>
         /// Elimina un FormModule de la base de datos LINQ

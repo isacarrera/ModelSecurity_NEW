@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entity.Enums;
 
 namespace Business.Interfaces
 {
@@ -14,5 +15,6 @@ namespace Business.Interfaces
         Task<bool> UpdateAsync(TCreateDto createDto);
         Task<bool> DeletePersistenceAsync(int id); 
         Task<bool> DeleteLogicAsync(int id); 
+        Task<bool> DeleteAsync(int id, DeleteType deleteType); 
     }
 }

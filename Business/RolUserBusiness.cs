@@ -7,6 +7,7 @@ using Business.Interfaces;
 using Data;
 using Data.Interfaces;
 using Entity.DTOs.RolUserDTOs;
+using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
 using Utilities.Exceptions;
@@ -284,6 +285,11 @@ namespace Business
             }
             return rolUsersDTO;
 
+        }
+
+        public Task<bool> DeleteAsync(int id, DeleteType deleteType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

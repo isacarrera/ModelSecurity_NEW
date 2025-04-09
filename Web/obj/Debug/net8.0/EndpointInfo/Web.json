@@ -241,6 +241,36 @@
         }
       }
     },
+    "/api/Form/{id}": {
+      "delete": {
+        "tags": [
+          "Form"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "strategy",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DeleteType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Form/Logical/{id}": {
       "delete": {
         "tags": [
@@ -2396,6 +2426,14 @@
   },
   "components": {
     "schemas": {
+      "DeleteType": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "FormDTO": {
         "type": "object",
         "properties": {

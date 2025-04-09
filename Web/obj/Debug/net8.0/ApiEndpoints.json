@@ -1,6 +1,27 @@
 [
   {
     "ContainingType": "Web.Controllers.FormController",
+    "Method": "DeleteForm",
+    "RelativePath": "api/Form/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "strategy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Controllers.FormController",
     "Method": "CreateForm",
     "RelativePath": "api/Form/Create",
     "HttpMethod": "POST",

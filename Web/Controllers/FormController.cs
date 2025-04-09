@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Entity.DTOs;
 using Entity.DTOs.UserDTOs;
+using Entity.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -210,6 +211,14 @@ namespace Web.Controllers
                 _logger.LogError(ex, "Error al eliminar el form con ID: {FormId}", id);
                 return StatusCode(500, new { message = ex.Message });
             }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteForm(int id, [FromQuery] DeleteType strategy = DeleteType.Logical)
+        {
+            var result = await _formBusiness.DeleteAsync(id, strategy);
+            if (!result) return NotFound();
+            return NoContent();
         }
 
 
