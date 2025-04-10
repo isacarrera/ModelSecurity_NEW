@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Entity.Context;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +17,7 @@ namespace Data
         ///<summary>
         ///Constructor que recibe el contexto de la base de datos
         ///</summary>
-        ///<param name="context">Instancia de <see cref="ApplicationDbContext"/> Para la conexion con la base de datos.</param>
+        ///<param name="context">Instancia de <see cref="ApplicationDbContext"/> Para la conexion con la base de datos.</param> 
         public FormData(ApplicationDbContext context, ILogger<FormData> logger)
         {
             _context = context;
@@ -45,6 +40,8 @@ namespace Data
         /// <summary>
         /// Obtiene un Form específico por su identificación LINQ
         /// </summary>
+        /// <param name="id"></param>
+        /// <returns>El Form Obtenido</returns>
         public async Task<Form?> GetByIdAsync(int id)
         {
             try

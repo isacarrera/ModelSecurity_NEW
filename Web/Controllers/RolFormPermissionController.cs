@@ -1,16 +1,14 @@
-﻿using Business;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Entity.DTOs.RolFormPermissionDTOs;
 using Entity.Enums;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Utilities.Exceptions;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de RolFormPermissions en el sistema
+    /// </summary>
     [Route("api/[controller]/")]
     [ApiController]
     [Produces("application/json")]
@@ -20,15 +18,25 @@ namespace Web.Controllers
         private readonly IBusiness<RolFormPermissionDTO, RolFormPermissionOptionsDTO> _rolFormPermissionBusiness;
         private readonly ILogger<RolFormPermissionController> _logger;
 
+        /// <summary>
+        /// Constructor del controlador de RolFormPermissions
+        /// </summary>
+        /// <param name="PermissionBusiness">Capa de negocio de RolFormPermissions</param>
+        /// <param name="logger">Logger para registro de RolFormPermissions</param>
+
         public RolFormPermissionController(IBusiness<RolFormPermissionDTO, RolFormPermissionOptionsDTO> rolFormPermissionBusiness, ILogger<RolFormPermissionController> logger)
         {
             _rolFormPermissionBusiness = rolFormPermissionBusiness;
             _logger = logger;
         }
 
-        ///<summary>
-        /// Obtener todos los rolFormPermissions del sistema
-        ///<summary>
+
+        /// <summary>
+        /// Obtiene todos los RolFormPermissions del sistema
+        /// </summary>
+        /// <returns>Lista de RolFormPermissiones</returns>
+        /// <response code="200">Retorna la lista de RolFormPermissions</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetAll/")]
         [ProducesResponseType(typeof(IEnumerable<RolFormPermissionDTO>), 200)]
         [ProducesResponseType(500)]
@@ -47,9 +55,15 @@ namespace Web.Controllers
         }
 
 
-        ///<summary>
-        /// Obtener un rolFormPermissionBusiness especificio por su ID
+        /// <summary>
+        /// Obtiene un RolFormPermission específico por su ID
         /// </summary>
+        /// <param name="id">ID del RolFormPermission</param>
+        /// <returns>RolFormPermission solicitado</returns>
+        /// <response code="200">Retorna el RolFormPermission solicitado</response>
+        /// <response code="400">ID proporcionado no válido</response>
+        /// <response code="404">RolFormPermission no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetByiId/{id}/")]
         [ProducesResponseType(typeof(RolFormPermissionDTO), 200)]
         [ProducesResponseType(400)]
@@ -82,8 +96,13 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Crea un nuevo rolFormPermissionBusiness en el sistema
+        /// Crea un nuevo RolFormPermission en el sistema
         /// </summary>
+        /// <param name="RolFormPermissionOptionsDTO">Datos del RolFormPermission a crear</param>
+        /// <returns>permission creado</returns>
+        /// <response code="201">Retorna el RolFormPermission creado</response>
+        /// <response code="400">Datos del RolFormPermission no válidos</response>
+        /// <response code="500">Error interno del servidor</response>        
         [HttpPost("Create/")]
         [ProducesResponseType(typeof(RolFormPermissionOptionsDTO), 201)]
         [ProducesResponseType(400)]
@@ -109,8 +128,15 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Actualiza un rolFormPermissionBusiness existente en el sistema
+        /// Actualiza un RolFormPermission existente en el sistema
         /// </summary>
+        /// <param name="id">ID del RolFormPermission a actualizar</param>
+        /// <param name="permissionDto">Datos actualizados del RolFormPermission</param>
+        /// <returns>RolFormPermission actualizado</returns>
+        /// <response code="200">Retorna el RolFormPermission actualizado</response>
+        /// <response code="400">Datos inválidos o ID incorrecto</response>
+        /// <response code="404">RolFormPermission no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPut("Update/")]
         [ProducesResponseType(typeof(RolFormPermissionOptionsDTO), 200)]
         [ProducesResponseType(400)]

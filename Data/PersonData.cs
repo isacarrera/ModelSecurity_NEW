@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Entity.Context;
-using Entity.DTOs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Data
 {
+    ///<summary>
+    ///Repositorio encargador de la gestion de la entidad Person en la base de datos
+    ///</summary>
+
     public class PersonData : IData<Person>
     {
         protected readonly ApplicationDbContext _context;
         protected readonly ILogger<PersonData> _looger;
 
+        ///<summary>
+        ///Constructor que recibe el contexto de la base de datos
+        ///</summary>
+        ///<param name="context">Instancia de <see cref="ApplicationDbContext"/> Para la conexion con la base de datos.</param>
         public PersonData(ApplicationDbContext context, ILogger<PersonData> logger)
         {
             _context = context;
@@ -25,8 +27,9 @@ namespace Data
 
 
         /// <summary>
-        /// Obtiene todos los Person almacenados en la base de datos LINQ
+        /// Obtiene todos los Persons almacenados en la base de datos LINQ
         /// </summary>
+        ///<returns>Lista de Persons</returns>
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
             return await _context.Set<Person>()
@@ -38,6 +41,8 @@ namespace Data
         /// <summary>
         /// Obtiene un Person especifico por su identificacion LINQ
         /// </summary
+        /// <param name="id"></param>
+        /// <returns>El Person Obtenido</returns>
         public async Task<Person?> GetByIdAsync(int id)
         {
             try
@@ -53,8 +58,10 @@ namespace Data
 
 
         /// <summary>
-        /// Crear un nuevo Person en la base de datos LINQ
+        /// Crea un nuevo Person en la base de datos LINQ
         /// </summary>
+        /// <param name="person"></param>
+        /// <returns>El Person Creado</returns>
         public async Task<Person> CreateAsync(Person person)
         {
             try
@@ -75,6 +82,8 @@ namespace Data
         /// <summary>
         /// Actualiza un Person existente en la base de datos LINQ
         /// </summary>
+        /// <param name="person">Objeto con la informacion actualizada.</param>
+        /// <returns>True si la actualizacion fue exitosa, False en caso contrario.</returns>
         public async Task<bool> UpdateAsync(Person person)
         {
             try
@@ -95,6 +104,8 @@ namespace Data
         /// <summary>
         /// Elimina un Person de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del Person a eliminar </param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.
         public async Task<bool> DeletePersistenceAsync(int id)
         {
             try
@@ -116,8 +127,10 @@ namespace Data
 
 
         /// <summary>
-        /// Elimina un Person de manera logica de la base  de datos LINQ
+        /// Elimina un Person de manera logica de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del Person a eliminar de manera logica</param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.</returns>
         public async Task<bool> DeleteLogicAsync(int id)
         {
             try

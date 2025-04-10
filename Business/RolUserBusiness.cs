@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
-using Data;
 using Data.Interfaces;
 using Entity.DTOs.RolUserDTOs;
 using Entity.Enums;
@@ -16,6 +10,9 @@ using Utilities.Exceptions;
 
 namespace Business
 {
+    ///<summary>
+    ///Clase de negocio encargada de la logica relacionada con RolUser en el sistema;
+    ///</summary>
     public class RolUserBusiness : IBusiness<RolUserDTO, RolUserOptionsDTO>
     {
         private readonly IData<RolUser> _rolUserData;
@@ -23,6 +20,11 @@ namespace Business
         private readonly ILogger<RolUserBusiness> _logger;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="RolUserBusiness"/>.
+        /// </summary>
+        /// <param name="rolUserData">Capa de acceso a datos para RolUser.</param>
+        /// <param name="logger">Logger para registro de RolUser</param>
         public RolUserBusiness(IData<RolUser> rolUserData, IDeleteStrategyResolver<RolUser> strategyResolver, ILogger<RolUserBusiness> logger, IMapper mapper)
         {
             _rolUserData = rolUserData;
@@ -31,9 +33,14 @@ namespace Business
             _mapper = mapper;
         }
 
+
         /// <summary>
-        /// Obtiene todos los registros de RolUser como DTOs.
+        /// Obtiene todos los RolUsers y los mapea a objetos <see cref="RolUserDTO"/>.
         /// </summary>
+        /// <returns>Una colección de objetos <see cref="RolUserDTO"/> que representan todos los RolUsers existentes.</returns>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar recuperar los datos desde la base de datos.
+        /// </exception>
         public async Task<IEnumerable<RolUserDTO>> GetAllAsync()
         {
             try
@@ -50,8 +57,19 @@ namespace Business
 
 
         /// <summary>
-        /// Obtiene un RolUser por ID como DTO.
+        /// Obtiene un RolUser especifico por su identificador y lo mapea a un objeto <see cref="RolUserDTO"/>.
         /// </summary>
+        /// <param name="id">Identificador único del rolUser a buscar. Debe ser mayor que cero.</param>
+        /// <returns>Un objeto <see cref="RolUserDTO"/> que representa el rolUser solicitado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza cuando el parámetro <paramref name="id"/> es menor o igual a cero.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza cuando no se encuentra ningún rolUser con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al mapear o recuperar el rolUser desde la base de datos.
+        /// </exception>
         public async Task<RolUserDTO> GetByIdAsync(int id)
         {
             if (id <= 0)
@@ -80,8 +98,16 @@ namespace Business
 
 
         /// <summary>
-        /// Crea una nueva asignación de RolUser.
+        /// Crea un nuevo RolUser en la base de datos a partir de un objeto <see cref="RolUserDTO"/>.
         /// </summary>
+        /// <param name="RolUserDto">Objeto <see cref="RolUserDTO"/> que contiene la inrolUseración del rolUser a crear.</param>
+        /// <returns>El objeto <see cref="RolUserDTO"/> que representa el RolUser recién creado, incluyendo su identificador asignado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del rolUser no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar crear el rolUser en la base de datos.
+        /// </exception>
         public async Task<RolUserOptionsDTO> CreateAsync(RolUserOptionsDTO rolUserDTO)
         {
             ValidateRolUser(rolUserDTO);
@@ -101,8 +127,19 @@ namespace Business
 
 
         /// <summary>
-        /// Actualiza una asignación existente de RolUser.
+        /// Actualiza un RolUser existente en la base de datos con los datos proporcionados en el <see cref="RolUserDTO"/>.
         /// </summary>
+        /// <param name="rolUserDTO">Objeto <see cref="RolUserDTO"/> con la inrolUseración actualizada del RolUser. Debe contener un ID válido.</param>
+        /// <returns>Un valor booleano que indica si la operación de actualización fue exitosa.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del rolUser no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún rolUser con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el rolUser en la base de datos.
+        /// </exception>
         public async Task<bool> UpdateAsync(RolUserOptionsDTO rolUserDTO)
         {
             ValidateRolUser(rolUserDTO);
@@ -133,6 +170,12 @@ namespace Business
         /// </summary>
         /// <param name="id">ID del RolUser</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún rolUser con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el rolUser en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -181,8 +224,5 @@ namespace Business
                 throw new ValidationException("RoleId", "El ID del rol debe ser mayor que cero.");
             }
         }
-
-
-        
     }
 }

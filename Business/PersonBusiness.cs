@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
-using Data;
 using Data.Interfaces;
 using Entity.DTOs;
-using Entity.DTOs.UserDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
@@ -17,6 +10,9 @@ using Utilities.Exceptions;
 
 namespace Business
 {
+    ///<summary>
+    ///Clase de negocio encargada de la logica relacionada con Person en el sistema;
+    ///</summary>
     public class PersonBusiness : IBusiness<PersonDTO, PersonDTO>
     {
         private readonly IData<Person> _personData;
@@ -24,6 +20,11 @@ namespace Business
         private readonly ILogger<PersonBusiness> _logger;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="PersonBusiness"/>.
+        /// </summary>
+        /// <param name="personData">Capa de acceso a datos para Person.</param>
+        /// <param name="logger">Logger para registro de Person</param>
         public PersonBusiness(IData<Person> personData, IDeleteStrategyResolver<Person> strategyResolver, ILogger<PersonBusiness> logger, IMapper mapper)
         {
             _personData = personData;
@@ -32,9 +33,14 @@ namespace Business
             _mapper = mapper;
         }
 
+
         /// <summary>
-        /// Obtiene todas las personas como DTOs
+        /// Obtiene todos los Persons y los mapea a objetos <see cref="PersonDTO"/>.
         /// </summary>
+        /// <returns>Una colección de objetos <see cref="PersonDTO"/> que representan todos los Persons existentes.</returns>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar recuperar los datos desde la base de datos.
+        /// </exception>
         public async Task<IEnumerable<PersonDTO>> GetAllAsync()
         {
             try
@@ -51,8 +57,19 @@ namespace Business
 
 
         /// <summary>
-        /// Obtiene una persona por su ID como DTO
+        /// Obtiene un Person especifico por su identificador y lo mapea a un objeto <see cref="PersonDTO"/>.
         /// </summary>
+        /// <param name="id">Identificador único del person a buscar. Debe ser mayor que cero.</param>
+        /// <returns>Un objeto <see cref="PersonDTO"/> que representa el person solicitado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza cuando el parámetro <paramref name="id"/> es menor o igual a cero.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza cuando no se encuentra ningún person con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al mapear o recuperar el person desde la base de datos.
+        /// </exception>
         public async Task<PersonDTO> GetByIdAsync(int id)
         {
             if (id <= 0)
@@ -81,8 +98,16 @@ namespace Business
 
 
         /// <summary>
-        /// Crea una nueva persona desde un DTO
+        /// Crea un nuevo Person en la base de datos a partir de un objeto <see cref="PersonDTO"/>.
         /// </summary>
+        /// <param name="PersonDto">Objeto <see cref="PersonDTO"/> que contiene la inpersonación del person a crear.</param>
+        /// <returns>El objeto <see cref="PersonDTO"/> que representa el Person recién creado, incluyendo su identificador asignado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del person no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar crear el person en la base de datos.
+        /// </exception>
         public async Task<PersonDTO> CreateAsync(PersonDTO personDto)
         {
             ValidatePerson(personDto);
@@ -104,8 +129,19 @@ namespace Business
 
 
         /// <summary>
-        /// Actualiza una persona existente
+        /// Actualiza un Person existente en la base de datos con los datos proporcionados en el <see cref="PersonDTO"/>.
         /// </summary>
+        /// <param name="personDTO">Objeto <see cref="PersonDTO"/> con la inpersonación actualizada del Person. Debe contener un ID válido.</param>
+        /// <returns>Un valor booleano que indica si la operación de actualización fue exitosa.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del person no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún person con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el person en la base de datos.
+        /// </exception>
         public async Task<bool> UpdateAsync(PersonDTO personDto)
         {
             if (personDto.Id <= 0)
@@ -150,6 +186,12 @@ namespace Business
         /// </summary>
         /// <param name="id">ID del Person</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún person con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el person en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -198,66 +240,5 @@ namespace Business
                 throw new ValidationException("Email", "El correo electrónico de Person es obligatorio");
             }
         }
-
-
-        /// <summary>
-        /// Mapea de Person a PersonDTO
-        /// </summary>
-        //private PersonDTO MapToDTO(Person person)
-        //{
-        //    return new PersonDTO
-        //    {
-        //        Id = person.Id,
-        //        Name = person.Name,
-        //        LastName = person.LastName,
-        //        Email = person.Email,
-        //        DocumentType = person.DocumentType,
-        //        DocumentNumber = person.DocumentNumber,
-        //        Phone = person.Phone,
-        //        Address = person.Address,
-        //        BloodType = person.BloodType,
-        //        Status = person.Active,
-        //    };
-        //}
-
-
-        ///// <summary>
-        ///// Mapea de PersonDTO a Person
-        ///// </summary>
-        //private Person MapToEntity(PersonDTO personDto)
-        //{
-        //    return new Person
-        //    {
-        //        Id = personDto.Id,
-        //        Name = personDto.Name,
-        //        LastName = personDto.LastName,
-        //        Email = personDto.Email,
-        //        DocumentType = personDto.DocumentType,
-        //        DocumentNumber = personDto.DocumentNumber,
-        //        Phone = personDto.Phone,
-        //        Address = personDto.Address,
-        //        BloodType = personDto.BloodType,
-        //        Active = personDto.Status,
-        //    };
-        //}
-
-
-        ///// <summary>
-        ///// Mapea una lista de Person a una lista de PersonDTO
-        ///// </summary>
-        ///// <summary>
-        ///// Metodo para mapear una lista de Person a una lista de PersonDTO 
-        ///// </summary>
-        ///// <param name="persons"></param>
-        ///// <returns></returns>
-        //private IEnumerable<PersonDTO> MapToDTOList(IEnumerable<Person> persons)
-        //{
-        //    var personsDTO = new List<PersonDTO>();
-        //    foreach (var person in persons)
-        //    {
-        //        personsDTO.Add(MapToDTO(person));
-        //    }
-        //    return personsDTO;
-        //}
     }
 }

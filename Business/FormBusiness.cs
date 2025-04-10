@@ -179,6 +179,12 @@ namespace Business
         /// </summary>
         /// <param name="id">ID del Form</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún form con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el form en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -221,11 +227,5 @@ namespace Business
                 throw new ValidationException("Name", "El nombre del Form es obligatorio.");
             }
         }
-
-
-        /// <summary>
-        /// Mapea un objeto Form a FormDTO.
-        /// </summary>
-        
     }
 }

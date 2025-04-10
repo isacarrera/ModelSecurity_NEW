@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
-using Data;
 using Data.Interfaces;
 using Entity.DTOs;
 using Entity.Enums;
@@ -16,6 +10,9 @@ using Utilities.Exceptions;
 
 namespace Business
 {
+    ///<summary>
+    ///Clase de negocio encargada de la logica relacionada con Permission en el sistema;
+    ///</summary>
     public class PermissionBusiness : IBusiness<PermissionDTO, PermissionDTO>
     {
         private readonly IData<Permission> _permissionData;
@@ -23,6 +20,11 @@ namespace Business
         private readonly ILogger<PermissionBusiness> _logger;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="PermissionBusiness"/>.
+        /// </summary>
+        /// <param name="permissionData">Capa de acceso a datos para Permission.</param>
+        /// <param name="logger">Logger para registro de Permission</param>
         public PermissionBusiness(IData<Permission> permissionData, IDeleteStrategyResolver<Permission> strategyResolver,ILogger<PermissionBusiness> logger, IMapper mapper)
         {
             _permissionData = permissionData;
@@ -33,8 +35,12 @@ namespace Business
 
 
         /// <summary>
-        /// Obtiene todos los permisos como DTOs.
+        /// Obtiene todos los Permissions y los mapea a objetos <see cref="PermissionDTO"/>.
         /// </summary>
+        /// <returns>Una colección de objetos <see cref="PermissionDTO"/> que representan todos los Permissions existentes.</returns>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar recuperar los datos desde la base de datos.
+        /// </exception>
         public async Task<IEnumerable<PermissionDTO>> GetAllAsync()
         {
             try
@@ -51,8 +57,19 @@ namespace Business
 
 
         /// <summary>
-        /// Obtiene un permiso por ID como DTO.
+        /// Obtiene un Permission especifico por su identificador y lo mapea a un objeto <see cref="PermissionDTO"/>.
         /// </summary>
+        /// <param name="id">Identificador único del permission a buscar. Debe ser mayor que cero.</param>
+        /// <returns>Un objeto <see cref="PermissionDTO"/> que representa el permission solicitado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza cuando el parámetro <paramref name="id"/> es menor o igual a cero.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza cuando no se encuentra ningún permission con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al mapear o recuperar el permission desde la base de datos.
+        /// </exception>
         public async Task<PermissionDTO> GetByIdAsync(int id)
         {
             if (id <= 0)
@@ -79,8 +96,16 @@ namespace Business
 
 
         /// <summary>
-        /// Crea un nuevo permiso.
+        /// Crea un nuevo Permission en la base de datos a partir de un objeto <see cref="PermissionDTO"/>.
         /// </summary>
+        /// <param name="PermissionDto">Objeto <see cref="PermissionDTO"/> que contiene la inpermissionación del permission a crear.</param>
+        /// <returns>El objeto <see cref="PermissionDTO"/> que representa el Permission recién creado, incluyendo su identificador asignado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del permission no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar crear el permission en la base de datos.
+        /// </exception>
         public async Task<PermissionDTO> CreateAsync(PermissionDTO permissionDTO)
         {
             ValidatePermission(permissionDTO);
@@ -101,8 +126,19 @@ namespace Business
 
 
         /// <summary>
-        /// Actualiza un permiso existente.
+        /// Actualiza un Permission existente en la base de datos con los datos proporcionados en el <see cref="PermissionDTO"/>.
         /// </summary>
+        /// <param name="permissionDTO">Objeto <see cref="PermissionDTO"/> con la inpermissionación actualizada del Permission. Debe contener un ID válido.</param>
+        /// <returns>Un valor booleano que indica si la operación de actualización fue exitosa.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del permission no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún permission con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el permission en la base de datos.
+        /// </exception>
         public async Task<bool> UpdateAsync(PermissionDTO permissionDTO)
         {
             ValidatePermission(permissionDTO);
@@ -134,6 +170,12 @@ namespace Business
         /// </summary>
         /// <param name="id">ID del Permission</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún permission con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el permission en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -176,51 +218,5 @@ namespace Business
                 throw new ValidationException("Name", "El nombre del Permission es obligatorio.");
             }
         }
-
-
-        /// <summary>
-        /// Mapea un objeto Permission a PermissionDTO.
-        /// </summary>
-        //private PermissionDTO MapToDTO(Permission permission)
-        //{
-        //    return new PermissionDTO
-        //    {
-        //        Id = permission.Id,
-        //        Name = permission.Name,
-        //        Description = permission.Description,
-        //        Status = permission.Active
-        //    };
-        //}
-
-
-        ///// <summary>
-        ///// Mapea un objeto PermissionDTO a Permission.
-        ///// </summary>
-        //private Permission MapToEntity(PermissionDTO permissionDTO)
-        //{
-        //    return new Permission
-        //    {
-        //        Id = permissionDTO.Id,
-        //        Name = permissionDTO.Name,
-        //        Description = permissionDTO.Description,
-        //        Active = permissionDTO.Status,
-        //    };
-        //}
-
-
-        ///// <summary>
-        ///// Metodo para mapear una lista de Permission a una lista de PermissionDTO 
-        ///// </summary>
-        ///// <param name="permissions"></param>
-        ///// <returns></returns>
-        //private IEnumerable<PermissionDTO> MapToDTOList(IEnumerable<Permission> permissions)
-        //{
-        //    var permissionsDTO = new List<PermissionDTO>();
-        //    foreach (var permission in permissions)
-        //    {
-        //        permissionsDTO.Add(MapToDTO(permission));
-        //    }
-        //    return permissionsDTO;
-        //}
     }
 }

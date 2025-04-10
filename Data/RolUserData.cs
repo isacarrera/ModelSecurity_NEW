@@ -1,31 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Entity.Context;
-using Entity.DTOs.RolUserDTOs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Data
 {
+    /// <summary>
+    /// Repositorio encargador de la gestion de la entidad RolUser en la base de datos
+    /// </summary>
     public class RolUserData : IData<RolUser>
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<RolUserData> _logger;
 
+        ///<summary>
+        ///Constructor que recibe el contexto de la base de datos
+        ///</summary>
+        ///<param name="context">Instancia de <see cref="ApplicationDbContext"/> Para la conexion con la base de datos.</param>
         public RolUserData(ApplicationDbContext context, ILogger<RolUserData> logger)
         {
             _context = context;
             _logger = logger;
         }
 
+
         /// <summary>
-        /// Obtiene todos los RolUser almacenados en la base de datos LINQ
+        /// Obtiene todos los RolUsers almacenados en la base de datos LINQ
         /// </summary>
+        ///<returns>Lista de RolUsers</returns>
         public async Task<IEnumerable<RolUser>> GetAllAsync()
         {
             return await _context.Set<RolUser>()
@@ -39,6 +42,8 @@ namespace Data
         /// <summary>
         /// Obtiene un RolUser específico por su identificación LINQ
         /// </summary>
+        /// <param name="id"></param>
+        /// <returns>El RolUser Obtenido</returns>
         public async Task<RolUser?> GetByIdAsync(int id)
         {
             try
@@ -54,11 +59,13 @@ namespace Data
                 throw;
             }
         }
-        
+
 
         /// <summary>
         /// Crea un nuevo RolUser en la base de datos LINQ
         /// </summary>
+        /// <param name="rolUser"></param>
+        /// <returns>El RolUser Creado</returns>
         public async Task<RolUser> CreateAsync(RolUser rolUser)
         {
             try
@@ -78,6 +85,8 @@ namespace Data
         /// <summary>
         /// Actualiza un RolUser existente en la base de datos LINQ
         /// </summary>
+        /// <param name="rolUser">Objeto con la informacion actualizada.</param>
+        /// <returns>True si la actualizacion fue exitosa, False en caso contrario.</returns>
         public async Task<bool> UpdateAsync(RolUser rolUser)
         {
             try
@@ -97,6 +106,8 @@ namespace Data
         /// <summary>
         /// Elimina un RolUser de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del RolUser a eliminar </param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.
         public async Task<bool> DeletePersistenceAsync(int id)
         {
             try
@@ -118,8 +129,10 @@ namespace Data
 
 
         /// <summary>
-        /// Elimina un rolUser de manera logica de la base  de datos LINQ
+        /// Elimina un RolUser de manera logica de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del RolUser a eliminar de manera logica</param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.</returns>
         public async Task<bool> DeleteLogicAsync(int id)
         {
             try

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
-using Data;
 using Data.Interfaces;
 using Entity.DTOs;
 using Entity.Enums;
@@ -26,6 +20,7 @@ namespace Business
         private readonly ILogger<RolBusiness> _logger;
         private readonly IMapper _mapper;
 
+
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="RolBusiness"/>.
         /// </summary>
@@ -43,7 +38,7 @@ namespace Business
         /// <summary>
         /// Obtiene todos los Rols y los mapea a objetos <see cref="RolDTO"/>.
         /// </summary>
-        /// <returns>Una coleccion de objetos <see cref="RolDTO"/> que representan todos los Rols existentes.</returns>
+        /// <returns>Una colección de objetos <see cref="RolDTO"/> que representan todos los Rols existentes.</returns>
         /// <exception cref="ExternalServiceException">
         /// Se lanza cuando ocurre un error al intentar recuperar los datos desde la base de datos.
         /// </exception>
@@ -107,7 +102,7 @@ namespace Business
         /// <summary>
         /// Crea un nuevo Rol en la base de datos a partir de un objeto <see cref="RolDTO"/>.
         /// </summary>
-        /// <param name="RolDto">Objeto <see cref="RolDTO"/> que contiene la información del rol a crear.</param>
+        /// <param name="RolDto">Objeto <see cref="RolDTO"/> que contiene la inrolación del rol a crear.</param>
         /// <returns>El objeto <see cref="RolDTO"/> que representa el Rol recién creado, incluyendo su identificador asignado.</returns>
         /// <exception cref="Utilities.Exceptions.ValidationException">
         /// Se lanza si el DTO del rol no cumple con las reglas de validación definidas.
@@ -138,7 +133,7 @@ namespace Business
         /// <summary>
         /// Actualiza un Rol existente en la base de datos con los datos proporcionados en el <see cref="RolDTO"/>.
         /// </summary>
-        /// <param name="rolDTO">Objeto <see cref="RolDTO"/> con la información actualizada del Rol. Debe contener un ID válido.</param>
+        /// <param name="rolDTO">Objeto <see cref="RolDTO"/> con la inrolación actualizada del Rol. Debe contener un ID válido.</param>
         /// <returns>Un valor booleano que indica si la operación de actualización fue exitosa.</returns>
         /// <exception cref="Utilities.Exceptions.ValidationException">
         /// Se lanza si el DTO del rol no cumple con las reglas de validación definidas.
@@ -186,6 +181,12 @@ namespace Business
         /// </summary>
         /// <param name="id">ID del Rol</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún rol con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el rol en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -230,55 +231,5 @@ namespace Business
                 throw new Utilities.Exceptions.ValidationException("Name", "El Name del Rol es obligatorio");
             }
         }
-
-
-        /// <summary>
-        /// Método para mapear de Rol a RolDTO
-        /// </summary>
-        /// <param name="rol"></param>
-        /// <returns></returns>
-        //private RolDTO MapToDTO(Rol rol)
-        //{
-        //    return new RolDTO
-        //    {
-        //        Id = rol.Id,
-        //        Name = rol.Name,
-        //        Description = rol.Description,
-        //        Status = rol.Active
-        //    };
-        //}
-
-
-        ///// <summary>
-        ///// Metodo para mapear de RolDTO a Rol 
-        ///// </summary>
-        ///// <param name="rolDTO"></param>
-        ///// <returns></returns>
-        //private Rol MapToEntity(RolDTO rolDTO)
-        //{
-        //    return new Rol
-        //    {
-        //        Id = rolDTO.Id,
-        //        Name = rolDTO.Name,
-        //        Description = rolDTO.Description,
-        //        Active = rolDTO.Status
-        //    };
-        //}
-
-
-        ///// <summary>
-        ///// Metodo para mapear una lista de Rol a una lista de RolDTO 
-        ///// </summary>
-        ///// <param name="roles"></param>
-        ///// <returns></returns>
-        //private IEnumerable<RolDTO> MapToDTOList(IEnumerable<Rol> roles)
-        //{
-        //    var rolesDTO = new List<RolDTO>();
-        //    foreach (var rol in roles)
-        //    {
-        //        rolesDTO.Add(MapToDTO(rol));
-        //    }
-        //    return rolesDTO;
-        //}
     }
 }

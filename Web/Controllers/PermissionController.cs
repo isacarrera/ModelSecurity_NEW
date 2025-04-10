@@ -1,17 +1,14 @@
-﻿using Business;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Entity.DTOs;
 using Entity.Enums;
-using Entity.Model;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Utilities.Exceptions;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de Permissions en el sistema
+    /// </summary>
     [Route("api/[controller]/")]
     [ApiController]
     [Produces("application/json")]
@@ -21,15 +18,24 @@ namespace Web.Controllers
         private readonly IBusiness<PermissionDTO, PermissionDTO> _permissionBusiness;
         private readonly ILogger<PermissionController> _logger;
 
+        /// <summary>
+        /// Constructor del controlador de Permission
+        /// </summary>
+        /// <param name="PermissionBusiness">Capa de negocio de Permission</param>
+        /// <param name="logger">Logger para registro de Permission</param>
         public PermissionController(IBusiness<PermissionDTO, PermissionDTO> permissionBusiness, ILogger<PermissionController> logger)
         {
             _permissionBusiness = permissionBusiness;
             _logger = logger;
         }
 
-        ///<summary>
-        /// Obtener todos los permissions del sistema
-        ///</summary>
+
+        /// <summary>
+        /// Obtiene todos los Permissions del sistema
+        /// </summary>
+        /// <returns>Lista de Permissiones</returns>
+        /// <response code="200">Retorna la lista de Permissions</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetAll/")]
         [ProducesResponseType(typeof(IEnumerable<PermissionDTO>), 200)]
         [ProducesResponseType(500)]
@@ -48,9 +54,15 @@ namespace Web.Controllers
         }
 
 
-        ///<summary>
-        /// Obtener un permissionBusiness especificio por su ID
+        /// <summary>
+        /// Obtiene un Permission específico por su ID
         /// </summary>
+        /// <param name="id">ID del Permission</param>
+        /// <returns>Permission solicitado</returns>
+        /// <response code="200">Retorna el Permission solicitado</response>
+        /// <response code="400">ID proporcionado no válido</response>
+        /// <response code="404">Permission no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetByiId/{id}/")]
         [ProducesResponseType(typeof(PermissionDTO), 200)]
         [ProducesResponseType(400)]
@@ -83,8 +95,13 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Crea un nuevo permissionBusiness en el sistema
+        /// Crea un nuevo Permission en el sistema
         /// </summary>
+        /// <param name="PermissionDTO">Datos del Permission a crear</param>
+        /// <returns>permission creado</returns>
+        /// <response code="201">Retorna el Permission creado</response>
+        /// <response code="400">Datos del Permission no válidos</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPost("Create/")]
         [ProducesResponseType(typeof(PermissionDTO), 201)]
         [ProducesResponseType(400)]
@@ -110,8 +127,15 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Actualiza un permissionBusiness existente en el sistema
+        /// Actualiza un Permission existente en el sistema
         /// </summary>
+        /// <param name="id">ID del Permission a actualizar</param>
+        /// <param name="permissionDto">Datos actualizados del Permission</param>
+        /// <returns>Permission actualizado</returns>
+        /// <response code="200">Retorna el Permission actualizado</response>
+        /// <response code="400">Datos inválidos o ID incorrecto</response>
+        /// <response code="404">Permission no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPut("Updated/")]
         [ProducesResponseType(typeof(PermissionDTO), 200)]
         [ProducesResponseType(400)]

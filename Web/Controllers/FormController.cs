@@ -1,19 +1,13 @@
-﻿using Business;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Entity.DTOs;
-using Entity.DTOs.UserDTOs;
 using Entity.Enums;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Utilities.Exceptions;
 
 namespace Web.Controllers
 {
     /// <summary>
-    /// Controllador para la gestión de Forms en el sistema
+    /// Controlador para la gestión de Forms en el sistema
     /// </summary>
     [Route("api/[controller]/")]
     [ApiController]
@@ -25,7 +19,7 @@ namespace Web.Controllers
         private readonly ILogger<FormController> _logger;
 
         /// <summary>
-        /// Constructor del contformador de Form
+        /// Constructor del controlador de Form
         /// </summary>
         /// <param name="FormBusiness">Capa de negocio de Form</param>
         /// <param name="logger">Logger para registro de Form</param>

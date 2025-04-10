@@ -1,12 +1,7 @@
-﻿using Business;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Entity.DTOs;
-using Entity.DTOs.UserDTOs;
 using Entity.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Utilities.Exceptions;
 
 namespace Web.Controllers

@@ -1,36 +1,41 @@
-﻿using Business;
-using Business.Interfaces;
-using Data;
+﻿using Business.Interfaces;
 using Entity.DTOs.FormModuleDTOs;
 using Entity.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Utilities.Exceptions;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de FormModules en el sistema
+    /// </summary>
     [Route("api/[controller]/")]
     [ApiController]
     [Produces("application/json")]
 
     public class FormModuleController : ControllerBase
     {
-
-
         private readonly IBusiness<FormModuleDTO,FormModuleOptionsDTO> _formModuleBusiness;
         private readonly ILogger<FormModuleController> _logger;
 
+        /// <summary>
+        /// Constructor del controlador de FormModule
+        /// </summary>
+        /// <param name="FormModuleBusiness">Capa de negocio de FormModule</param>
+        /// <param name="logger">Logger para registro de FormModule</param>
         public FormModuleController(IBusiness<FormModuleDTO, FormModuleOptionsDTO> formModuleBusiness, ILogger<FormModuleController> logger)
         {
             _formModuleBusiness = formModuleBusiness;
             _logger = logger;
         }
 
+
         /// <summary>
-        /// Obtener todos los formModules del sistema
+        /// Obtiene todos los FormModules del sistema
         /// </summary>
+        /// <returns>Lista de FormModulees</returns>
+        /// <response code="200">Retorna la lista de FormModules</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetAll/")]
         [ProducesResponseType(typeof(IEnumerable<FormModuleDTO>), 200)]
         [ProducesResponseType(500)]
@@ -49,9 +54,15 @@ namespace Web.Controllers
         }
 
 
-        ///<summary>
-        /// Obtener un form especificio por su ID
+        /// <summary>
+        /// Obtiene un FormModule específico por su ID
         /// </summary>
+        /// <param name="id">ID del FormModule</param>
+        /// <returns>FormModule solicitado</returns>
+        /// <response code="200">Retorna el FormModule solicitado</response>
+        /// <response code="400">ID proporcionado no válido</response>
+        /// <response code="404">FormModule no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetByiId/{id}/")]
         [ProducesResponseType(typeof(FormModuleDTO), 200)]
         [ProducesResponseType(400)]
@@ -84,8 +95,13 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Crea un nuevo formModule en el sistema
+        /// Crea un nuevo FormModule en el sistema
         /// </summary>
+        /// <param name="FormModuleDTO">Datos del FormModule a crear</param>
+        /// <returns>formModule creado</returns>
+        /// <response code="201">Retorna el FormModule creado</response>
+        /// <response code="400">Datos del FormModule no válidos</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPost("Create/")]
         [ProducesResponseType(typeof(FormModuleOptionsDTO), 201)]
         [ProducesResponseType(400)]
@@ -111,8 +127,15 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Actualiza un formModule existente en el sistema
+        /// Actualiza un FormModule existente en el sistema
         /// </summary>
+        /// <param name="id">ID del FormModule a actualizar</param>
+        /// <param name="formModuleDto">Datos actualizados del FormModule</param>
+        /// <returns>FormModule actualizado</returns>
+        /// <response code="200">Retorna el FormModule actualizado</response>
+        /// <response code="400">Datos inválidos o ID incorrecto</response>
+        /// <response code="404">FormModule no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPut("Update/")]
         [ProducesResponseType(typeof(FormModuleDTO), 200)]
         [ProducesResponseType(400)]

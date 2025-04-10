@@ -1,16 +1,14 @@
-﻿using Business;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Entity.DTOs;
 using Entity.Enums;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Utilities.Exceptions;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de Persons en el sistema
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
@@ -19,15 +17,24 @@ namespace Web.Controllers
         private readonly IBusiness<PersonDTO, PersonDTO> _personBusiness;
         private readonly ILogger<PersonController> _logger;
 
+        /// <summary>
+        /// Constructor del controlador de Person
+        /// </summary>
+        /// <param name="PersonBusiness">Capa de negocio de Person</param>
+        /// <param name="logger">Logger para registro de Person</param>
         public PersonController(IBusiness<PersonDTO, PersonDTO> personBusiness, ILogger<PersonController> logger)
         {
             _personBusiness = personBusiness;
             _logger = logger;
         }
 
-        ///<summary>
-        /// Obtener todos los person del sistema
-        ///</summary>
+
+        /// <summary>
+        /// Obtiene todos los Persons del sistema
+        /// </summary>
+        /// <returns>Lista de Persones</returns>
+        /// <response code="200">Retorna la lista de Persons</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetAll/")]
         [ProducesResponseType(typeof(IEnumerable<PersonDTO>), 200)]
         [ProducesResponseType(500)]
@@ -47,9 +54,15 @@ namespace Web.Controllers
         }
 
 
-        ///<summary>
-        /// Obtener un person especificio por su ID
+        /// <summary>
+        /// Obtiene un Person específico por su ID
         /// </summary>
+        /// <param name="id">ID del Person</param>
+        /// <returns>Person solicitado</returns>
+        /// <response code="200">Retorna el Person solicitado</response>
+        /// <response code="400">ID proporcionado no válido</response>
+        /// <response code="404">Person no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetByiId/{id}/")]
         [ProducesResponseType(typeof(PersonDTO), 200)]
         [ProducesResponseType(400)]
@@ -82,8 +95,13 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Crea un nuevo person en el sistema
+        /// Crea un nuevo Person en el sistema
         /// </summary>
+        /// <param name="PersonDTO">Datos del Person a crear</param>
+        /// <returns>permission creado</returns>
+        /// <response code="201">Retorna el Person creado</response>
+        /// <response code="400">Datos del Person no válidos</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPost("Create/")]
         [ProducesResponseType(typeof(RolDTO), 201)]
         [ProducesResponseType(400)]
@@ -108,9 +126,15 @@ namespace Web.Controllers
         }
 
 
-        /// <summary>
-        /// Actualiza un person existente en el sistema
+        /// Actualiza un Person existente en el sistema
         /// </summary>
+        /// <param name="id">ID del Person a actualizar</param>
+        /// <param name="permissionDto">Datos actualizados del Person</param>
+        /// <returns>Person actualizado</returns>
+        /// <response code="200">Retorna el Person actualizado</response>
+        /// <response code="400">Datos inválidos o ID incorrecto</response>
+        /// <response code="404">Person no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPut("Update/")]
         [ProducesResponseType(typeof(RolDTO), 200)]
         [ProducesResponseType(400)]
@@ -141,7 +165,7 @@ namespace Web.Controllers
             }
         }
 
-        
+
         /// <summary>
         /// Elimina un Person del sistema. Eleccion si la eliminación es lógica o permanente.
         /// </summary>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Entity.Context;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +6,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Data
 {
+    ///<summary>
+    ///Repositorio encargador de la gestion de la entidad Permission en la base de datos
+    ///</summary>
     public class PermissionData : IData<Permission>
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<PermissionData> _logger;
 
+        ///<summary>
+        ///Constructor que recibe el contexto de la base de datos
+        ///</summary>
+        ///<param name="context">Instancia de <see cref="ApplicationDbContext"/> Para la conexion con la base de datos.</param>
         public PermissionData(ApplicationDbContext context, ILogger<PermissionData> logger)
         {
             _context = context;
@@ -23,8 +25,9 @@ namespace Data
         }
 
         /// <summary>
-        /// Obtiene todos los Permission almacenados en la base de datos LINQ
+        /// Obtiene todos los Permissions almacenados en la base de datos LINQ
         /// </summary>
+        /// <returns>Lista de Permissions</returns>
         public async Task<IEnumerable<Permission>> GetAllAsync()
         {
             return await _context.Set<Permission>()
@@ -36,6 +39,8 @@ namespace Data
         /// <summary>
         /// Obtiene un Permission específico por su identificación LINQ
         /// </summary>
+        /// <param name="id"></param>
+        /// <returns>El Permission Obtenido</returns>
         public async Task<Permission?> GetByIdAsync(int id)
         {
             try
@@ -53,6 +58,8 @@ namespace Data
         /// <summary>
         /// Crea un nuevo Permission en la base de datos LINQ
         /// </summary>
+        /// <param name="permission"></param>
+        /// <returns>El Permission Creado</returns>
         public async Task<Permission> CreateAsync(Permission permission)
         {
             try
@@ -72,6 +79,8 @@ namespace Data
         /// <summary>
         /// Actualiza un Permission existente en la base de datos LINQ
         /// </summary>
+        /// <param name="permission">Objeto con la informacion actualizada.</param>
+        /// <returns>True si la actualizacion fue exitosa, False en caso contrario.</returns>
         public async Task<bool> UpdateAsync(Permission permission)
         {
             try
@@ -91,6 +100,8 @@ namespace Data
         /// <summary>
         /// Elimina un Permission de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del Permission a eliminar </param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.
         public async Task<bool> DeletePersistenceAsync(int id)
         {
             var permission = await _context.Set<Permission>().FindAsync(id);
@@ -109,9 +120,12 @@ namespace Data
             }
         }
 
+
         /// <summary>
-        /// Elimina un Permission de manera logica de la base  de datos LINQ
+        /// Elimina un Permission de manera logica de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del Permission a eliminar de manera logica</param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.</returns>
         public async Task<bool> DeleteLogicAsync(int id)
         {
             try

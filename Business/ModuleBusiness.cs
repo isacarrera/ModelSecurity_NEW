@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
-using Data;
 using Data.Interfaces;
 using Entity.DTOs;
-using Entity.DTOs.FormModuleDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
@@ -26,6 +19,7 @@ namespace Business
         private readonly IDeleteStrategyResolver<Module> _strategyResolver;
         private readonly ILogger<ModuleBusiness> _logger;
         private readonly IMapper _mapper;
+
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="ModuleBusiness"/>.
@@ -169,10 +163,16 @@ namespace Business
 
 
         /// <summary>
-        /// Elimina un Module. Eleccion si la eliminación es lógica o permanente.
+        /// Elimina un FormModule. Eleccion si la eliminación es lógica o permanente.
         /// </summary>
-        /// <param name="id">ID del Module</param>
+        /// <param name="id">ID del FormModule</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún formModule con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el formModule en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -215,8 +215,5 @@ namespace Business
                 throw new ValidationException("Name", "El Name del Module es obligatorio.");
             }
         }
-
-
-        
     }
 }

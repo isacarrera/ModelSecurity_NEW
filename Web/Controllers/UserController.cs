@@ -13,6 +13,9 @@ using Utilities.Exceptions;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de Users en el sistema
+    /// </summary>
     [Route("api/[controller]/")]
     [ApiController]
     [Produces("application/json")]
@@ -22,15 +25,24 @@ namespace Web.Controllers
         private readonly IBusiness<UserDTO, UserCreateDTO> _userBusiness;
         private readonly ILogger<UserController> _logger;
 
+        /// <summary>
+        /// Constructor del controlador de User
+        /// </summary>
+        /// <param name="UserBusiness">Capa de negocio de User</param>
+        /// <param name="logger">Logger para registro de User</param>   
         public UserController(IBusiness<UserDTO, UserCreateDTO> userBusiness, ILogger<UserController> logger)
         {
             _userBusiness = userBusiness;
             _logger = logger;
         }
 
-        ///<summary>
-        /// Obtener todos los users del sistema
-        ///</summary>
+
+        /// <summary>
+        /// Obtiene todos los Users del sistema
+        /// </summary>
+        /// <returns>Lista de Useres</returns>
+        /// <response code="200">Retorna la lista de Users</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetAll/")]
         [ProducesResponseType(typeof(IEnumerable<UserDTO>), 200)]
         [ProducesResponseType(500)]
@@ -49,9 +61,15 @@ namespace Web.Controllers
         }
 
 
-        ///<summary>
-        /// Obtener un userBusiness especificio por su ID
+        /// <summary>
+        /// Obtiene un User específico por su ID
         /// </summary>
+        /// <param name="id">ID del User</param>
+        /// <returns>User solicitado</returns>
+        /// <response code="200">Retorna el User solicitado</response>
+        /// <response code="400">ID proporcionado no válido</response>
+        /// <response code="404">User no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetByiId/{id}/")]
         [ProducesResponseType(typeof(UserDTO), 200)]
         [ProducesResponseType(400)]
@@ -84,8 +102,13 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Crea un nuevo userBusiness en el sistema
+        /// Crea un nuevo User en el sistema
         /// </summary>
+        /// <param name="UserDTO">Datos del User a crear</param>
+        /// <returns>user creado</returns>
+        /// <response code="201">Retorna el User creado</response>
+        /// <response code="400">Datos del User no válidos</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPost("Create/")]
         [ProducesResponseType(typeof(UserDTO), 201)]
         [ProducesResponseType(400)]
@@ -111,8 +134,15 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Actualiza un userBusiness existente en el sistema
+        /// Actualiza un User existente en el sistema
         /// </summary>
+        /// <param name="id">ID del User a actualizar</param>
+        /// <param name="userDto">Datos actualizados del User</param>
+        /// <returns>User actualizado</returns>
+        /// <response code="200">Retorna el User actualizado</response>
+        /// <response code="400">Datos inválidos o ID incorrecto</response>
+        /// <response code="404">User no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPut("Update/")]
         [ProducesResponseType(typeof(UserDTO), 200)]
         [ProducesResponseType(400)]

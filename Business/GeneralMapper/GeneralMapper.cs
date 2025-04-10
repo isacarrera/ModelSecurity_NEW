@@ -17,29 +17,27 @@ namespace Business.GeneralMapper
     {
         public GeneralMapper()
         {
-            CreateMap<Person, PersonDTO>().ReverseMap();
+            CreateMap<Form, FormDTO>().ReverseMap();
 
-            CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<User, UserCreateDTO>().ReverseMap();
+            CreateMap<Module, ModuleDTO>().ReverseMap();
 
             CreateMap<Permission,PermissionDTO>().ReverseMap();
+
+            CreateMap<Person, PersonDTO>().ReverseMap();
 
             CreateMap<Rol, RolDTO>().ReverseMap();
 
             CreateMap<RolFormPermission, RolFormPermissionDTO>().ReverseMap();
             CreateMap<RolFormPermission, RolFormPermissionOptionsDTO>().ReverseMap();
 
-            CreateMap<Form, FormDTO>().ReverseMap();
-
             CreateMap<FormModule, FormModuleDTO>().ReverseMap();
             CreateMap<FormModule, FormModuleOptionsDTO>().ReverseMap();
-
-            CreateMap<Module, ModuleDTO>().ReverseMap();
 
             CreateMap<RolUser, RolUserDTO>().ReverseMap();
             CreateMap<RolUser, RolUserOptionsDTO>().ReverseMap();
 
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, UserCreateDTO>().ReverseMap();
         }
-
     }
 }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
-using Data;
 using Data.Interfaces;
 using Entity.DTOs.UserDTOs;
 using Entity.Enums;
@@ -16,6 +10,9 @@ using Utilities.Exceptions;
 
 namespace Business
 {
+    ///<summary>
+    ///Clase de negocio encargada de la logica relacionada con User en el sistema;
+    ///</summary>
     public class UserBusiness : IBusiness<UserDTO, UserCreateDTO>
     {
         private readonly IData<User> _userData;
@@ -23,6 +20,11 @@ namespace Business
         private readonly ILogger<UserBusiness> _logger;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="UserBusiness"/>.
+        /// </summary>
+        /// <param name="userData">Capa de acceso a datos para User.</param>
+        /// <param name="logger">Logger para registro de User</param>
         public UserBusiness(IData<User> userData, IDeleteStrategyResolver<User> strategyResolver, ILogger<UserBusiness> logger,IMapper mapper)
         {
             _userData = userData;
@@ -31,9 +33,14 @@ namespace Business
             _mapper = mapper;
         }
 
+
         /// <summary>
-        /// Obtiene todos los usuarios como DTOs.
+        /// Obtiene todos los Users y los mapea a objetos <see cref="UserDTO"/>.
         /// </summary>
+        /// <returns>Una colección de objetos <see cref="UserDTO"/> que representan todos los Users existentes.</returns>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar recuperar los datos desde la base de datos.
+        /// </exception>
         public async Task<IEnumerable<UserDTO>> GetAllAsync()
         {
             try
@@ -50,8 +57,19 @@ namespace Business
 
 
         /// <summary>
-        /// Obtiene un usuario por ID como DTO.
+        /// Obtiene un User especifico por su identificador y lo mapea a un objeto <see cref="UserDTO"/>.
         /// </summary>
+        /// <param name="id">Identificador único del user a buscar. Debe ser mayor que cero.</param>
+        /// <returns>Un objeto <see cref="UserDTO"/> que representa el user solicitado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza cuando el parámetro <paramref name="id"/> es menor o igual a cero.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza cuando no se encuentra ningún user con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al mapear o recuperar el user desde la base de datos.
+        /// </exception>
         public async Task<UserDTO> GetByIdAsync(int id)
         {
             if (id <= 0)
@@ -78,8 +96,16 @@ namespace Business
 
 
         /// <summary>
-        /// Crea un nuevo usuario.
+        /// Crea un nuevo User en la base de datos a partir de un objeto <see cref="UserDTO"/>.
         /// </summary>
+        /// <param name="UserDto">Objeto <see cref="UserDTO"/> que contiene la inuseración del user a crear.</param>
+        /// <returns>El objeto <see cref="UserDTO"/> que representa el User recién creado, incluyendo su identificador asignado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del user no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar crear el user en la base de datos.
+        /// </exception>
         public async Task<UserCreateDTO> CreateAsync(UserCreateDTO userCreateDTO)
         {
             ValidateUser(userCreateDTO);
@@ -100,8 +126,19 @@ namespace Business
 
 
         /// <summary>
-        /// Actualiza un usuario existente.
+        /// Actualiza un User existente en la base de datos con los datos proporcionados en el <see cref="UserDTO"/>.
         /// </summary>
+        /// <param name="userDTO">Objeto <see cref="UserDTO"/> con la inuseración actualizada del User. Debe contener un ID válido.</param>
+        /// <returns>Un valor booleano que indica si la operación de actualización fue exitosa.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del user no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún user con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el user en la base de datos.
+        /// </exception>
         public async Task<bool> UpdateAsync(UserCreateDTO userCreateDTO)
         {
 
@@ -135,6 +172,12 @@ namespace Business
         /// </summary>
         /// <param name="id">ID del User</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún user con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el user en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -177,87 +220,5 @@ namespace Business
                 throw new ValidationException("Username", "El nombre de usuario es obligatorio.");
             }
         }
-
-
-        /// <summary>
-        /// Mapea un objeto User a UserDTO.
-        /// </summary>
-        //private UserDTO MapToDTO(User user)
-        //{
-        //    return new UserDTO
-        //    {
-        //        Id = user.Id,
-        //        Username = user.Username,
-        //        Password = "🤡",
-        //        Status = user.Active,
-        //        PersonId = user.PersonId,
-        //        PersonName = $"{user.Person?.Name} {user.Person?.LastName}"
-        //    };
-
-        //}
-
-
-        ///// <summary>
-        ///// Mapea un objeto UserDTO a User.
-        ///// </summary>
-        //private User MapToEntity(UserDTO userDTO)
-        //{
-        //    return new User
-        //    {
-        //        Id = userDTO.Id,
-        //        Username = userDTO.Username,
-        //        Active = userDTO.Status,
-        //        PersonId = userDTO.PersonId
-        //    };
-        //}
-
-
-        /// <summary>
-        /// Mapea un objeto User a UserCreateDTO.
-        /// </summary>
-        //private UserCreateDTO MapToCreateDTO(User user)
-        //{
-        //    return new UserCreateDTO
-        //    {
-        //        Id = user.Id,
-        //        Username = user.Username,
-        //        Password = user.Password,
-        //        Status = user.Active,
-        //        PersonId = user.PersonId,
-        //    };
-
-        //}
-
-
-        ///// <summary>
-        ///// Mapea un objeto UserCreateDTO a User.
-        ///// </summary>
-        //private User MapCreateToEntity(UserCreateDTO userCreateDTO)
-        //{
-        //    return new User
-        //    {
-        //        Id = userCreateDTO.Id,
-        //        Username = userCreateDTO.Username,
-        //        Password = userCreateDTO.Password,
-        //        Active = userCreateDTO.Status,
-        //        PersonId = userCreateDTO.PersonId
-        //    };
-        //}
-
-
-        ///// <summary>
-        ///// Metodo para mapear una lista de User a una lista de UserDTO 
-        ///// </summary>
-        ///// <param name="users"></param>
-        ///// <returns></returns>
-        //private IEnumerable<UserDTO> MapToDTOList(IEnumerable<User> users)
-        //{
-        //    var usersDTO = new List<UserDTO>();
-        //    foreach (var user in users)
-        //    {
-        //        usersDTO.Add(MapToDTO(user));
-        //    }
-        //    return usersDTO;
-        //}
     }
 }

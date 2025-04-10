@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
-using Data;
 using Data.Interfaces;
 using Entity.DTOs.RolFormPermissionDTOs;
-using Entity.DTOs.UserDTOs;
 using Entity.Enums;
 using Entity.Model;
 using Microsoft.Extensions.Logging;
@@ -17,6 +10,9 @@ using Utilities.Exceptions;
 
 namespace Business
 {
+    ///<summary>
+    ///Clase de negocio encargada de la logica relacionada con RolFormPermission en el sistema;
+    ///</summary>
     public class RolFormPermissionBusiness : IBusiness<RolFormPermissionDTO, RolFormPermissionOptionsDTO>
     {
         private readonly IData<RolFormPermission> _rolFormPermissionData;
@@ -24,6 +20,11 @@ namespace Business
         private readonly ILogger<RolFormPermissionBusiness> _logger;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="RolFormPermissionBusiness"/>.
+        /// </summary>
+        /// <param name="rolFormPermissionData">Capa de acceso a datos para RolFormPermission.</param>
+        /// <param name="logger">Logger para registro de RolFormPermission</param>
         public RolFormPermissionBusiness(IData<RolFormPermission> rolFormPermissionData, IDeleteStrategyResolver<RolFormPermission> strategyResolver, ILogger<RolFormPermissionBusiness> logger, IMapper mapper)
         {
             _rolFormPermissionData = rolFormPermissionData;
@@ -32,9 +33,14 @@ namespace Business
             _mapper = mapper;
         }
 
+
         /// <summary>
-        /// Obtiene todos los registros de RolFormPermission como DTOs.
+        /// Obtiene todos los RolFormPermissions y los mapea a objetos <see cref="RolFormPermissionDTO"/>.
         /// </summary>
+        /// <returns>Una colección de objetos <see cref="RolFormPermissionDTO"/> que representan todos los RolFormPermissions existentes.</returns>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar recuperar los datos desde la base de datos.
+        /// </exception>
         public async Task<IEnumerable<RolFormPermissionDTO>> GetAllAsync()
         {
             try
@@ -51,8 +57,19 @@ namespace Business
 
 
         /// <summary>
-        /// Obtiene un RolFormPermission por ID como DTO.
+        /// Obtiene un RolFormPermission especifico por su identificador y lo mapea a un objeto <see cref="RolFormPermissionDTO"/>.
         /// </summary>
+        /// <param name="id">Identificador único del rolFormPermission a buscar. Debe ser mayor que cero.</param>
+        /// <returns>Un objeto <see cref="RolFormPermissionDTO"/> que representa el rolFormPermission solicitado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza cuando el parámetro <paramref name="id"/> es menor o igual a cero.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza cuando no se encuentra ningún rolFormPermission con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al mapear o recuperar el rolFormPermission desde la base de datos.
+        /// </exception>
         public async Task<RolFormPermissionDTO> GetByIdAsync(int id)
         {
             if (id <= 0)
@@ -79,8 +96,16 @@ namespace Business
 
 
         /// <summary>
-        /// Crea un nuevo registro de RolFormPermission.
+        /// Crea un nuevo RolFormPermission en la base de datos a partir de un objeto <see cref="RolFormPermissionDTO"/>.
         /// </summary>
+        /// <param name="RolFormPermissionDto">Objeto <see cref="RolFormPermissionDTO"/> que contiene la inrolFormPermissionación del rolFormPermission a crear.</param>
+        /// <returns>El objeto <see cref="RolFormPermissionDTO"/> que representa el RolFormPermission recién creado, incluyendo su identificador asignado.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del rolFormPermission no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error al intentar crear el rolFormPermission en la base de datos.
+        /// </exception>
         public async Task<RolFormPermissionOptionsDTO> CreateAsync(RolFormPermissionOptionsDTO rolFormPermissionDTO)
         {
             ValidateRolFormPermission(rolFormPermissionDTO);
@@ -101,8 +126,19 @@ namespace Business
 
 
         /// <summary>
-        /// Actualiza un registro existente de RolFormPermission.
+        /// Actualiza un RolFormPermission existente en la base de datos con los datos proporcionados en el <see cref="RolFormPermissionDTO"/>.
         /// </summary>
+        /// <param name="rolFormPermissionDTO">Objeto <see cref="RolFormPermissionDTO"/> con la inrolFormPermissionación actualizada del RolFormPermission. Debe contener un ID válido.</param>
+        /// <returns>Un valor booleano que indica si la operación de actualización fue exitosa.</returns>
+        /// <exception cref="Utilities.Exceptions.ValidationException">
+        /// Se lanza si el DTO del rolFormPermission no cumple con las reglas de validación definidas.
+        /// </exception>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún rolFormPermission con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el rolFormPermission en la base de datos.
+        /// </exception>
         public async Task<bool> UpdateAsync(RolFormPermissionOptionsDTO rolFormPermissionDTO)
         {
             ValidateRolFormPermission(rolFormPermissionDTO);
@@ -134,6 +170,12 @@ namespace Business
         /// </summary>
         /// <param name="id">ID del RolFormPermission</param>
         /// <param name="strategy">Tipo de eliminación (Logical o Permanent)</param>
+        /// <exception cref="EntityNotFoundException">
+        /// Se lanza si no se encuentra ningún rolFormPermission con el ID especificado.
+        /// </exception>
+        /// <exception cref="ExternalServiceException">
+        /// Se lanza cuando ocurre un error inesperado al intentar actualizar el rolFormPermission en la base de datos.
+        /// </exception>
         public async Task<bool> DeleteAsync(int id, DeleteType strategyType)
         {
             if (id <= 0)
@@ -188,11 +230,5 @@ namespace Business
                 throw new ValidationException("FormId", "El ID del formulario debe ser mayor que cero.");
             }
         }
-
-
-        /// <summary>
-        /// Mapea un objeto RolFormPermission a RolFormPermissionDTO.
-        /// </summary>
-       
     }
 }

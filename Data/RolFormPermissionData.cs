@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Entity.Context;
-using Entity.DTOs.RolFormPermissionDTOs;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Data
 {
+    /// <summary>
+    /// Repositorio encargador de la gestion de la entidad RolFormPermission en la base de datos
+    /// </summary>
     public class RolFormPermissionData : IData<RolFormPermission>
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<RolFormPermissionData> _logger;
 
+        ///<summary>
+        ///Constructor que recibe el contexto de la base de datos
+        ///</summary>
+        ///<param name="context">Instancia de <see cref="ApplicationDbContext"/> Para la conexion con la base de datos.</param>
         public RolFormPermissionData(ApplicationDbContext context, ILogger<RolFormPermissionData> logger)
         {
             _context = context;
@@ -25,8 +26,9 @@ namespace Data
 
 
         /// <summary>
-        /// Obtiene todos los RolFormPermission almacenados en la base de datos LINQ
+        /// Obtiene todos los RolFormPermissions almacenados en la base de datos LINQ
         /// </summary>
+        ///<returns>Lista de RolFormPermissions</returns>
         public async Task<IEnumerable<RolFormPermission>> GetAllAsync()
         {
             return await _context.Set<RolFormPermission>()
@@ -41,6 +43,8 @@ namespace Data
         /// <summary>
         /// Obtiene un RolFormPermission específico por su identificación LINQ
         /// </summary>
+        /// <param name="id"></param>
+        /// <returns>El RolFormPermission Obtenido</returns>
         public async Task<RolFormPermission?> GetByIdAsync(int id)
         {
             try
@@ -62,6 +66,8 @@ namespace Data
         /// <summary>
         /// Crea un nuevo RolFormPermission en la base de datos LINQ
         /// </summary>
+        /// <param name="rolFormPermission"></param>
+        /// <returns>El RolFormPermission Creado</returns>
         public async Task<RolFormPermission> CreateAsync(RolFormPermission rolFormPermission)
         {
             try
@@ -81,6 +87,8 @@ namespace Data
         /// <summary>
         /// Actualiza un RolFormPermission existente en la base de datos LINQ
         /// </summary>
+        /// <param name="rolFormPermission">Objeto con la informacion actualizada.</param>
+        /// <returns>True si la actualizacion fue exitosa, False en caso contrario.</returns>
         public async Task<bool> UpdateAsync(RolFormPermission rolFormPermission)
         {
             try
@@ -100,6 +108,8 @@ namespace Data
         /// <summary>
         /// Elimina un RolFormPermission de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del RolFormPermission a eliminar </param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.
         public async Task<bool> DeletePersistenceAsync(int id)
         {
             try
@@ -121,8 +131,10 @@ namespace Data
 
 
         /// <summary>
-        /// Elimina un FormModuleData de manera logica de la base  de datos LINQ
+        /// Elimina un RolFormPermission de manera logica de la base de datos LINQ
         /// </summary>
+        /// <param name="id">Identificador unico del RolFormPermission a eliminar de manera logica</param>
+        /// <returns>True si la eliminación fue exitosa, False en caso contrario.</returns>
         public async Task<bool> DeleteLogicAsync(int id)
         {
             try

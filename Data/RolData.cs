@@ -1,10 +1,4 @@
-﻿using System;
-
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using Data.Interfaces;
 using Entity.Context;
 using Entity.Model;
@@ -46,8 +40,10 @@ namespace Data
 
 
         /// <summary>
-        /// Obtiene un Rol específico por su identificacion LINQ
+        /// Obtiene un Rol específico por su identificación LINQ
         /// </summary>
+        /// <param name="id"></param>
+        /// <returns>El Rol Obtenido</returns>
         public async Task<Rol?> GetByIdAsync(int id)
         {
             try
@@ -86,7 +82,7 @@ namespace Data
         /// <summary>
         /// Actualiza un Rol existente en la base de datos LINQ
         /// </summary>
-        /// <param name="rol">Objeto con la información actualizada.</param>
+        /// <param name="rol">Objeto con la informacion actualizada.</param>
         /// <returns>True si la actualizacion fue exitosa, False en caso contrario.</returns>
         public async Task<bool> UpdateAsync(Rol rol)
         {
@@ -130,7 +126,7 @@ namespace Data
 
 
         /// <summary>
-        /// Elimina un Rol de manera logica un Rol de la base de datos LINQ
+        /// Elimina un Rol de manera logica de la base de datos LINQ
         /// </summary>
         /// <param name="id">Identificador unico del Rol a eliminar de manera logica</param>
         /// <returns>True si la eliminación fue exitosa, False en caso contrario.</returns>

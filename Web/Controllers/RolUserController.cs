@@ -13,6 +13,9 @@ using Utilities.Exceptions;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de RolUsers en el sistema
+    /// </summary>
     [Route("api/[controller]/")]
     [ApiController]
     [Produces("application/json")]
@@ -22,15 +25,23 @@ namespace Web.Controllers
         private readonly IBusiness<RolUserDTO, RolUserOptionsDTO> _rolUserBusiness;
         private readonly ILogger<RolUserController> _logger;
 
+        /// <summary>
+        /// Constructor del controlador de RolUser
+        /// </summary>
+        /// <param name="RolUserBusiness">Capa de negocio de RolUser</param>
+        /// <param name="logger">Logger para registro de RolUser</param>
         public RolUserController(IBusiness<RolUserDTO, RolUserOptionsDTO> rolUserBusiness, ILogger<RolUserController> logger)
         {
             _rolUserBusiness = rolUserBusiness;
             _logger = logger;
         }
 
-        ///<summary>
-        /// Obtener todos los rolUsers del sistema
-        ///</summary>
+
+        /// Obtiene todos los RolUsers del sistema
+        /// </summary>
+        /// <returns>Lista de RolUseres</returns>
+        /// <response code="200">Retorna la lista de RolUsers</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetAll/")]
         [ProducesResponseType(typeof(IEnumerable<RolUserDTO>), 200)]
         [ProducesResponseType(500)]
@@ -49,9 +60,15 @@ namespace Web.Controllers
         }
 
 
-        ///<summary>
-        /// Obtener un rolUserBusiness especificio por su ID
+        /// <summary>
+        /// Obtiene un RolUser específico por su ID
         /// </summary>
+        /// <param name="id">ID del RolUser</param>
+        /// <returns>RolUser solicitado</returns>
+        /// <response code="200">Retorna el RolUser solicitado</response>
+        /// <response code="400">ID proporcionado no válido</response>
+        /// <response code="404">RolUser no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpGet("GetByiId/{id}/")]
         [ProducesResponseType(typeof(RolUserDTO), 200)]
         [ProducesResponseType(400)]
@@ -84,8 +101,13 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Crea un nuevo rolUserBusiness en el sistema
+        /// Crea un nuevo RolUser en el sistema
         /// </summary>
+        /// <param name="RolUserDTO">Datos del RolUser a crear</param>
+        /// <returns>rolUser creado</returns>
+        /// <response code="201">Retorna el RolUser creado</response>
+        /// <response code="400">Datos del RolUser no válidos</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPost("Create/")]
         [ProducesResponseType(typeof(RolUserOptionsDTO), 201)]
         [ProducesResponseType(400)]
@@ -111,8 +133,15 @@ namespace Web.Controllers
 
 
         /// <summary>
-        /// Actualiza un rolUserBusiness existente en el sistema
+        /// Actualiza un RolUser existente en el sistema
         /// </summary>
+        /// <param name="id">ID del RolUser a actualizar</param>
+        /// <param name="rolUserDto">Datos actualizados del RolUser</param>
+        /// <returns>RolUser actualizado</returns>
+        /// <response code="200">Retorna el RolUser actualizado</response>
+        /// <response code="400">Datos inválidos o ID incorrecto</response>
+        /// <response code="404">RolUser no encontrado</response>
+        /// <response code="500">Error interno del servidor</response>
         [HttpPut("Update/")]
         [ProducesResponseType(typeof(RolUserOptionsDTO), 200)]
         [ProducesResponseType(400)]
